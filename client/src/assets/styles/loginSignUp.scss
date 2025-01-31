@@ -1,0 +1,198 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+    
+    width: 700px; /* Set a width to help with centering */
+    margin-top: 100px;
+    background: white;
+    padding: 30px;
+    border-radius: 8px; /* Optional: Add a border radius for styling */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: Shadow for emphasis */
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 9px;
+        width: 100%;
+        margin-top: 30px;
+
+        .text {
+            color: rgb(71, 24, 180);
+            font-size: 48px;
+            font-weight: 700;
+        }
+    }
+
+    .inputs {
+        margin-top: 55px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        .input {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: auto;
+            width: 480px;
+            height: 80px;
+            background: rgb(245, 243, 243);
+            border-radius: 6px;
+
+            input {
+                height: 50px;
+                width: 400px;
+                background: transparent;
+                border: none;
+                outline: none;
+                color: rgb(127, 123, 122);
+                font-size: 19px;
+            }
+
+            .forgot-password {
+                margin-top: 27px;
+                color: rgb(136, 136, 136);
+                font-size: 18px;
+
+                span {
+                    color: rgb(71, 24, 180);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .submit-container {
+        display: flex;
+        gap: 30px;
+        margin: 60px auto;
+
+        .submit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 220px;
+            height: 59px;
+            color: aliceblue;
+            background: rgb(71, 24, 180);
+            border-radius: 50px;
+            font-size: 19px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .gray {
+            background: rgb(245, 243, 243);
+            color: rgb(102, 101, 101);
+        }
+    }
+}
+
+@media (max-width: 1200px) { /* Reduce the breakpoint for better targeting */
+    .container {
+        width: 90%; /* Make the container width more responsive */
+        max-width: 600px; /* Optional: keep max-width if you want it to not exceed 600px */
+        margin-top: 40px;
+        padding: 20px;
+    }
+
+    .header .text {
+        font-size: 36px; /* Adjust font size for better readability on smaller screens */
+    }
+
+    .inputs {
+        margin-top: 30px;
+        gap: 15px;
+    }
+
+    .inputs .input {
+        width: 100%; /* Make input width responsive */
+        max-width: 480px; /* Limit the max-width to 480px */
+        height: 50px;
+    }
+
+    .submit-container {
+        margin: 40px auto;
+        gap: 20px;
+    }
+
+    .submit {
+        width: 100%; /* Ensure button takes full width of its container */
+        max-width: 160px; /* Limit button width */
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .gray {
+        width: 100%; /* Ensure gray button takes full width of its container */
+        max-width: 160px; /* Limit gray button width */
+        font-size: 16px;
+    }
+}
+
+/* Media Queries for Smaller Screens */
+@media (max-width: 768px) {
+    .container {
+        width: 90%; /* Make the container more fluid */
+        margin-top: 40px; /* Reduce margin-top */
+        padding: 20px; /* Reduce padding */
+    }
+
+    .header .text {
+        font-size: 36px; /* Smaller font for better readability */
+    }
+
+    .inputs {
+        margin-top: 30px; /* Reduced margin between input fields */
+        gap: 15px; /* Reduce gap between inputs */
+    }
+
+    .inputs .input {
+        width: 90%; /* Make input fields more flexible */
+    }
+
+    .submit-container {
+        margin: 40px auto; /* Adjust margin for smaller devices */
+        gap: 20px; /* Reduce the gap between buttons */
+    }
+
+    .submit {
+        width: 160px; /* Smaller button width */
+        height: 50px; /* Smaller button height */
+        font-size: 16px; /* Adjust font size for better fitting */
+    }
+
+    .gray {
+        width: 160px; /* Make gray button smaller */
+        font-size: 16px; /* Adjust font size */
+    }
+}
+
+/* Further adjustments for extra small screens */
+@media (max-width: 480px) {
+    .container {
+        width: 95%; /* Almost full-width on very small screens */
+        margin-top: 20px; /* Reduce top margin further */
+    }
+
+    .header .text {
+        font-size: 28px; /* Even smaller text size */
+    }
+
+    .inputs .input {
+        width: 100%; /* Input fields take full width */
+    }
+
+    .submit {
+        width: 140px; /* Further reduce button width */
+        height: 45px; /* Reduce button height */
+        font-size: 14px; /* Adjust font size for small screens */
+    }
+
+    .gray {
+        width: 140px; /* Gray button adjusts similarly */
+        font-size: 14px;
+    }
+}

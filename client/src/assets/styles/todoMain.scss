@@ -1,0 +1,216 @@
+// Import Bootstrap's precompiled CSS
+@use 'navbar';
+@use "bootstrap/dist/css/bootstrap";
+@use 'theme';
+
+
+// Define custom colors
+$primary: #6f42c1;
+$secondary: #6c757d;
+$informationColor: #a793c0;
+
+
+// General styling for body and container
+body {
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 800px;
+  margin-top: 70px;
+  .my-4 {
+    color: $primary;
+    font-weight: 700;
+  }
+  
+}
+
+// Styling for the main todo list
+.todo-list {
+  margin-top: 20px;
+  border-spacing: 0;
+}
+
+.todo-date {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #a793c0;
+}
+
+// Main todos table styling
+.main-todo-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  
+  .m-3 {
+    margin: 0;
+  }
+  .todo-header {
+    padding-left: 176px;
+    text-align: left;
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+    color: $primary;
+  }
+
+  .td-input {
+    padding: 0;
+  }
+
+  .todo-item-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 5px 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;                  // Adjust width for a perfect circle
+      height: 20px;                 // Adjust height for a perfect circle
+      border: 2px solid $primary;
+      border-radius: 50%;           // Ensures the shape is circular
+      font-size: 16px;              // Adjust font size for checkmark
+      color: $primary;
+      cursor: pointer;
+      margin: auto;                 // Centers the circle within the <td>
+      background-color: transparent;
+    }
+
+    .todo-date {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: #a793c0;
+      margin-right: 15px;
+      text-align: left;
+      flex-shrink: 0;
+    }
+
+    .todo-description {
+      flex: 1;
+      text-align: left;
+    }
+    .todo-description span{
+      color: $primary;
+    }
+
+    .delete-btn-cell {
+      flex-shrink: 0;
+    }
+  }
+}
+
+// Styling for completed todo item rows
+.todo-item-row.completed .todo-description {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+// Delete button styling with hover effect
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  color: #dc3545;
+  font-size: 14px;
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.2s, opacity 0.2s;
+
+  .todo-item-row:hover & {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+// Form styling to make it look like part of the table
+.todo-form {
+  margin: 0;
+  padding: 0;
+
+  .table-like-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+
+    .todo-input {
+      
+      border: none;
+      border-bottom: 1px solid #e0e0e0;
+      outline: none;
+      padding: 8px;
+      flex: 1;
+      margin-left: 0;
+    }
+
+    .add-todo-btn {
+      background-color: transparent;
+      border: none;
+      color: $primary;
+      font-size: 18px;
+      padding: 0;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .add-circle {
+      margin-right: 10px;
+      margin-left: 10px;
+      color: $primary;
+
+    }
+    .todo-input{
+      color: $informationColor;
+    }
+  }
+}
+
+// Styling for the completed tasks section
+.completed-todos {
+  margin-top: 20px;
+
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+
+  .table {
+    border-radius: 30px;
+    overflow: hidden;
+  }
+
+  .table-dark {
+    background-color: #2c2f33;
+    color: #f8f9fa;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .table-striped tbody tr:nth-of-type(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// General table styling
+.table-dark, 
+.table-striped, 
+.main-todo-table,
+.completed-table-body {
+  border-radius: inherit;
+}
+
+.todo-item-row td.circle {
+  text-align: center;
+  vertical-align: middle;
+  
+}

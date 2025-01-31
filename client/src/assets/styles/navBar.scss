@@ -1,0 +1,35 @@
+// assets/styles/navbar.scss
+
+nav {
+    background-color: white;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  
+      li {
+        margin: 0 10px;
+  
+        a {
+          text-decoration: none;
+          color: #333;
+          font-size: 14px;
+          font-weight: 500;
+          transition: color 0.3s ease;
+  
+          &:hover {
+            color: #007bff;
+          }
+        }
+      }
+    }
+  }

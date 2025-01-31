@@ -1,0 +1,81 @@
+// Define theme styles
+$themes: (
+  "theme-light": (
+    bg-color: #ffffff,
+    text-color: #333,
+    table-bg: #f5f5f5,
+    border-color: #ddd
+  ),
+  "theme-dark": (
+    bg-color: #1a1a2e,
+    text-color: #ffffff,
+    table-bg: #333,
+    border-color: #444
+  ),
+  "theme-blue": (
+    bg-color: #3498db,
+    text-color: #ffffff,
+    table-bg: #2980b9,
+    border-color: #1a5276
+  ),
+  "theme-green": (
+    bg-color: #27ae60,
+    text-color: #ffffff,
+    table-bg: #229954,
+    border-color: #1e8449
+  ),
+  "theme-purple": (
+    bg-color: #8e44ad,
+    text-color: #ffffff,
+    table-bg: #6c3483,
+    border-color: #5b2c6f
+  ),
+);
+
+// Apply styles dynamically
+@each $theme, $map in $themes {
+  [data-theme="#{$theme}"] {
+    background-color: map-get($map, bg-color);
+    color: map-get($map, text-color);
+
+    .todo-list {
+      background-color: map-get($map, table-bg);
+      border: 2px solid map-get($map, border-color);
+    }
+
+    .todo-item-row {
+      color: map-get($map, text-color);
+    }
+
+    .todo-description {
+      color: map-get($map, text-color);
+    }
+  }
+}
+
+// Style the theme buttons
+.theme-page {
+  text-align: center;
+  padding: 20px;
+
+  .theme-options {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+
+    .theme-btn {
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .theme-btn.active {
+      outline: 3px solid white;
+      transform: scale(1.1);
+    }
+  }
+}

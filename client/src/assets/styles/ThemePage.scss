@@ -1,0 +1,30 @@
+// src/components/CustomizationPage.scss
+.customization-page {
+    padding: 20px;
+  
+    &.day {
+      background-color: #f9f9f9;
+      color: #000;
+    }
+  
+    &.night {
+      background-color: #333;
+      color: #fff;
+    }
+  
+    .theme-settings,
+    .table-color-settings {
+      margin: 20px 0;
+  
+      label {
+        margin-right: 10px;
+        font-weight: bold;
+      }
+  
+      input[type="color"] {
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+  

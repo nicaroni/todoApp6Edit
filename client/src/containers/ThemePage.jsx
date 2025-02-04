@@ -22,6 +22,7 @@ const ThemePage = () => {
   return (
     <div className="theme-page">
       <h1>Choose a Theme</h1>
+      ]
       <div className="theme-options">
         {themes.map((theme) => (
           <button

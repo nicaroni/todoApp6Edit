@@ -5,7 +5,8 @@ import todoReducer, { initialState } from "../context/TodoReducer";
 import axios from "axios";
 import '../assets/styles/todoMain.scss';
 import NavBar from '../components/NavbarPart';
-import TestComponent from '../components/TestComponent';
+import confetti from "canvas-confetti";
+
 
 // Add this to your app
 
@@ -13,7 +14,12 @@ import TestComponent from '../components/TestComponent';
 // Lazy load the TodoList component
 const TodoList = React.lazy(() => import('../components/TodoList'));
 
+
+
+
 const TodoPage = () => {
+
+
   const [todos, dispatch] = useReducer(todoReducer, initialState);
   const [showCompleted, setShowCompleted] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('selectedTheme') || 'theme-light');
@@ -63,7 +69,6 @@ const TodoPage = () => {
     <div className={`container ${theme}`}>
       <NavBar />
       <h1 className={`my-4 ${theme}`}>Todo App</h1>
-      <TestComponent />
       <Suspense fallback={<div>Loading List...</div>}>
         <TodoList todos={todos} dispatch={dispatch} />
       </Suspense>

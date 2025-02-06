@@ -1,0 +1,19 @@
+.home_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    flex-direction: column;
+
+    .navbar-home{
+    margin: 20px;
+}
+.home_structure-left-right{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+}

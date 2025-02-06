@@ -75,7 +75,7 @@ const SignUp = () => {
     <div className='container'>
       <div className="header">
         <div className='text'>Sign Up</div>
-        <div className='underline'></div>мн,жббжжжжжжб.нмнdfdfd1sd
+        <div className='underline'></div>
 
       </div>
       <form onSubmit={handleSubmit} className="inputs">

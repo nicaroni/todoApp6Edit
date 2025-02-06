@@ -1,51 +1,71 @@
 @use "sass:map";
 // Define theme styles
 
-
+ 
 $themes: (
   "theme-light": (
-    bg-color: #ffffff,
+    back-color: #ffffff,
+    container-color:white,
     text-color: #333,
     table-bg: #1f1f20,
+    text-input:rgb(44, 44, 44),
     table-input: #ff9595,
-    border-color: #ddd,
+    
+    second-color: rgb(160, 160, 160),
+    third-color:white,
     background-color:#1f1f20,
   ),
   "theme-dark": (
-    bg-color: #292929,
+    back-color: #313131,
+    container-color:rgb(31, 31, 31),
     text-color: #ffffff,
-    table-bg: #000000,
+    table-bg: #345fd3,
+    text-input:rgb(230, 230, 230),
     table-input: #ff9595,
-    border-color: #201d1d,
+    
+    second-color: rgb(141, 141, 141),
+    third-color:white,
     background-color: #1f1f20,
     line-color: #543c8f,
   ),
   "theme-blue": (
-    bg-color: #3498db,
+    back-color: #f1f9ff,
+    container-color:#ceebff,
     text-color: #ffffff,
-    table-bg: #2980b9,
+    table-bg: #1b98c9,
+    text-input:rgb(65, 132, 163),
     table-input: #ff9595,
-    border-color: #1a5276,
+    
+    second-color: rgb(120, 172, 192),
+    third-color:white,
     background-color: #1f1f20,
-    line-color: red,
+    line-color: rgb(255, 255, 255),
   ),
   "theme-green": (
-    bg-color: #5fac7f,
+    back-color: #f5fff9,
+    container-color:#c5ffdf,
     text-color: #ffffff,
-    table-bg: #229954,
+    table-bg: #d69bbd,
+    text-input:rgb(44, 160, 102),
     table-input: #ff9595,
-    border-color: #1e8449,
+    
+    second-color: rgb(92, 177, 137),
+    third-color:white,
     background-color: #303031,
-    line-color: red,
+    line-color: rgb(255, 255, 255),
   ),
   "theme-purple": (
-    bg-color: #8e44ad,
-    text-color: #ffffff,
-    table-bg: #75637c,
-    table-input: #ff9595,
-    border-color: #5b2c6f,
-    background-color: #1f1f20,
-    line-color: red,
+    back-color: #ffffff,
+    container-color:#fce1fd,
+    text-color: #fffeff,
+    table-bg: #90cce6,
+    text-input:hsl(288, 96%, 72%),
+    table-input: #f50505,
+    
+    second-color: hsl(288, 100%, 78%),
+    third-color:white,
+    background-color: #0000a5,
+    line-color: rgb(255, 255, 255),
   ),
 );
 
@@ -53,44 +73,71 @@ $themes: (
 @each $theme, $map in $themes {
   [data-theme="#{$theme}"] {
 
-    --bs-body-bg: map.get($map, table-input);
-    background-color: map.get($map, bg-color);
-    color: map.get($map, text-color);
+    
+    
+    background-color: map.get($map, back-color);
     
     .container {
-      background-color: map.get($map, bg-color);
+      background-color: map.get($map, container-color);
+
+      .my-4{
+        color: map.get($map, text-color);
+        text-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+      }
     }
     
     .main-todo-table .todo-item-row {
       
       
       .todo-date {
-        color: rgb(172, 128, 229);
+        color: map.get($map, second-color);
       }
       .todo-description span {
-        color: rgb(219, 215, 215);
+        color: map.get($map, text-input);
       }
       // If this element should have both classes, use a dot between them:
-      .form-control.todo-input {
-        color: #1a5276;
-      }
+   
     }
-
+    .todo-form .table-like-row .todo-input{
+      color: map.get($map, text-input);
+      
+      border-color: #ffffff;
+      
+    }
     .table {
       --bs-table-bg: map.get($map, table-input);
+      .todo-header{
+        color:map.get($map, table-bg);
+        border-color: #ffffff;
+      }
+      .add-todo-btn{
+        color: map.get($map, table-bg);
+      }
+      .circle{
+        color: map.get($map, second-color);
+        border-color:map.get($map, second-color);
+      }
+      .table-like-row .add-todo-btn{
+        padding: 5px;
+        border-radius: 10px;
+        border: 3px solid white;
+        box-shadow: rgba(46, 75, 240, 0.4) 5px 5px, rgba(46, 49, 240, 0.3) 10px 10px, rgba(65, 46, 240, 0.2) 15px 15px, rgba(98, 46, 240, 0.1) 20px 20px, rgba(75, 46, 240, 0.05)25px 25px;
+      }
     }
     
-    .todo-list {
-      border: 2px solid map.get($map, border-color);
-    }
+    
     
     .todo-item-row {
       color: map.get($map, text-color);
       border-bottom: map.get($map, line-color);
+      .circle{
+        color: map.get($map, second-color);
+      }
     }
     
     .todo-description {
-      color: map.get($map, text-color);
+      color: map.get($map, table-bg);
+      
     }
    
     // Use the saved table-input variable on #root:
@@ -101,6 +148,12 @@ $themes: (
 
 // Style the theme buttons
 .theme-page {
+  margin-top: 50px;
+  margin-left: 30px;
+  margin-right: 30px;
+  background-color: #f3f3f3;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.01) 0px 16px 19px;
+  border-radius: 10px;
   text-align: center;
   padding: 20px;
 
@@ -125,3 +178,35 @@ $themes: (
     }
   }
 }
+
+.nav-theme{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 5px 1;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    border-radius: 10px;
+
+    .nav-2{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 10px 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-radius: 10px;
+    .nav-2-center{
+      text-decoration: none;
+      font-weight: 700;
+      color: #41c985;
+    }
+
+  }
+    
+      
+    }
+ 

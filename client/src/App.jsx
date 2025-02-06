@@ -5,6 +5,7 @@ import SignUpPage from './containers/SignUpPage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import TodoPage from './containers/TodoPage.jsx';
 import ThemePage from './containers/ThemePage.jsx';
+import HomePage from './containers/HomePage.jsx';
 import './assets/styles/todoMain.scss';
 import './App.css'
 
@@ -15,6 +16,7 @@ function App() {
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/todos" element={<TodoPage />} />
         <Route path="/theme" element={<ThemePage />} />

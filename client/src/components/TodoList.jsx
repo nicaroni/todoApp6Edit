@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import TodoItem from "./TodoItem";
 import TodoForm from "./TodoForm";
 import axios from "axios";
+import confetti from "canvas-confetti";
 
 import { jwtDecode } from "jwt-decode";
 
@@ -53,6 +54,20 @@ const TodoList = ({ todos, dispatch }) => {
     setShowCompleted(prev => !prev);
   };
 
+  useEffect(() => {
+    if (todos.length > 0 && uncompletedTodos.length === 0) {
+      launchConfetti();
+    }
+  }, [todos]); // Runs whenever todos change
+
+  const launchConfetti = () => {
+    confetti({
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.6 },
+    });
+  };
+
   return (
     <div className="todo-list">
       <table className="table table-borderless main-todo-table">
@@ -94,6 +109,10 @@ const TodoList = ({ todos, dispatch }) => {
             </tbody>
           </table>
         </div>
+      )}
+
+        {todos.length > 0 && uncompletedTodos.length === 0 && (
+        <div className="congrats-message">100% complete! Take a break, you deserve it! 🍩☕</div>
       )}
     </div>
   );

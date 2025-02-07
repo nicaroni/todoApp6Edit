@@ -9,7 +9,7 @@ const helmet = require("helmet");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const corsOptions = {
-  origin: "https://yourfrontenddomain.com",  // Allow only your front-end domain
+  origin: process.env.FRONTEND_URL?.split(",") || "*",  // Allow only your front-end domain
   methods: ["GET", "POST", "PUT", "DELETE"],  // Allow only necessary methods
   allowedHeaders: ["Content-Type", "Authorization"],  // Allow only necessary headers
   credentials: true,  // Enable cookies/auth tokens to be sent

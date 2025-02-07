@@ -24,7 +24,7 @@ const TodoList = ({ todos, dispatch }) => {
               return;
             }
     
-            const response = await axios.get("http://localhost:5000/todos", {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/todos`, {
               headers: {
                 "Authorization": `Bearer ${token}`,  // Attach token here
               },

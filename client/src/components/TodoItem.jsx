@@ -13,7 +13,7 @@ const TodoItem = ({ todo, dispatch }) => {
     try {
       // Send PUT request to update the completed status in the backend
       await axios.put(
-        `http://localhost:5000/todos/${todo.todo_id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/todos/${todo.todo_id}`,
         { description: todo.description, completed: updatedTodo.completed },
         { headers: { "Authorization": `Bearer ${localStorage.getItem("authToken")}` } }
       );
@@ -40,7 +40,7 @@ const TodoItem = ({ todo, dispatch }) => {
 
     try {
       // Send DELETE request to the backend to delete the todo
-      await axios.delete(`http://localhost:5000/todos/${todo.todo_id}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/todos/${todo.todo_id}`, {
         headers: {
           "Authorization": `Bearer ${token}`,  // Attach token here
         },
@@ -62,7 +62,7 @@ const TodoItem = ({ todo, dispatch }) => {
     try {
       // Send PUT request to update the todo's description on the backend
       const response = await axios.put(
-        `http://localhost:5000/todos/${todo.todo_id}`,
+       `${import.meta.env.VITE_BACKEND_URL}/todos/${todo.todo_id}`,
         { description: input,
           completed: isCompleted,
          },

@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', { // Note the full URL
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/login`, { // Note the full URL
 
         method: 'POST',
         headers: {

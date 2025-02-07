@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import API_URL from '../config';
 
 const TodoItem = ({ todo, dispatch }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -13,7 +14,7 @@ const TodoItem = ({ todo, dispatch }) => {
     try {
       // Send PUT request to update the completed status in the backend
       await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/todos/${todo.todo_id}`,
+        `${API_URL}/todos/${todo.todo_id}`,
         { description: todo.description, completed: updatedTodo.completed },
         { headers: { "Authorization": `Bearer ${localStorage.getItem("authToken")}` } }
       );
@@ -40,7 +41,7 @@ const TodoItem = ({ todo, dispatch }) => {
 
     try {
       // Send DELETE request to the backend to delete the todo
-      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/todos/${todo.todo_id}`, {
+      await axios.delete(`${API_URL}/todos/${todo.todo_id}`, {
         headers: {
           "Authorization": `Bearer ${token}`,  // Attach token here
         },
@@ -62,7 +63,7 @@ const TodoItem = ({ todo, dispatch }) => {
     try {
       // Send PUT request to update the todo's description on the backend
       const response = await axios.put(
-       `${import.meta.env.VITE_BACKEND_URL}/todos/${todo.todo_id}`,
+       `${API_URL}/todos/${todo.todo_id}`,
         { description: input,
           completed: isCompleted,
          },

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+import API_URL from '../config';
 
 import '../assets/styles/loginSignUp.scss';
 
@@ -38,7 +39,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/signup`, {
+      const response = await fetch(`${API_URL}/api/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

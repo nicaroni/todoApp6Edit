@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import API_URL from '../config';
 
 const TodoForm = ({ dispatch }) => {
   const [input, setInput] = useState("");
@@ -16,7 +17,7 @@ const TodoForm = ({ dispatch }) => {
   
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/todos`,  // The backend API to create a todo
+        `${API_URL}/todos`,  // The backend API to create a todo
         { description: input },  // The data (todo description)
         {
           headers: {

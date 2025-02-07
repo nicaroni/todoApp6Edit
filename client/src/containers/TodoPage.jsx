@@ -6,7 +6,7 @@ import axios from "axios";
 import '../assets/styles/todoMain.scss';
 import NavBar from '../components/NavbarPart';
 import confetti from "canvas-confetti";
-
+import API_URL from '../config';
 
 // Add this to your app
 
@@ -37,7 +37,7 @@ const TodoPage = () => {
           return;
         }
         try {
-          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/todos`, {
+          const response = await axios.get(`${API_URL}/todos`, {
           headers:{
             Authorization: `Bearer ${token}`,
           },

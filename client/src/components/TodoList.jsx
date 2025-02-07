@@ -3,6 +3,7 @@ import TodoItem from "./TodoItem";
 import TodoForm from "./TodoForm";
 import axios from "axios";
 import confetti from "canvas-confetti";
+import API_URL from '../config';
 
 import { jwtDecode } from "jwt-decode";
 
@@ -24,7 +25,7 @@ const TodoList = ({ todos, dispatch }) => {
               return;
             }
     
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/todos`, {
+            const response = await axios.get(`${API_URL}/todos`, {
               headers: {
                 "Authorization": `Bearer ${token}`,  // Attach token here
               },

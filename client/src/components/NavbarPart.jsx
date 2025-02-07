@@ -8,10 +8,12 @@ const Navbar = () => {
     return (
         <nav>
             <ul>
-                <li> <Link to="/">Home</Link></li>
+            {location.pathname === "/todos" && <li> <Link to="/">Home</Link></li>}
                 <li> <Link to="/about">About</Link></li>
                 <li> <Link to="/theme">Customize</Link></li>
                 {location.pathname === "/" && <li> <Link to="/todos">Todo</Link></li>}
+                {location.pathname === "/" && <li> <Link to="/signup">SignUp</Link></li>}
+                {location.pathname === "/" && <li> <Link to="/login">Login</Link></li>}
                 
 
             </ul>

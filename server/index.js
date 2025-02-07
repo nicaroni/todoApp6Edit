@@ -225,6 +225,10 @@ cron.schedule("0 0 * * *", async () => {
   }
 })
 
+app.get("/", (req, res) => {
+  res.send("Server is running! 🚀");
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

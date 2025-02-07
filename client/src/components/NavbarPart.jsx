@@ -11,7 +11,7 @@ const Navbar = () => {
                 <li> <Link to="/">Home</Link></li>
                 <li> <Link to="/about">About</Link></li>
                 <li> <Link to="/theme">Customize</Link></li>
-                {location.pathname === "/" && <li> <Link to="/theme">Customize</Link></li>}
+                {location.pathname === "/" && <li> <Link to="/todos">Todo</Link></li>}
                 
 
             </ul>

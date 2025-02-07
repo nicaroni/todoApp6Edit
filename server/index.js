@@ -17,7 +17,7 @@ const corsOptions = {
   optionsSuccessStatus: 204,  // Some legacy browsers choke on 204 status
 };
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(express.json()); // Allow JSON request bodies
 
@@ -39,7 +39,7 @@ const verifyToken = (req, res, next) => {
   if (!token) return res.status(401).json({ message: "Access denied" });
 
   try {
-    const decoded = jwt.verify(token, "your_jwt_secret");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;  // Attach user info to the request object
     next();
   } catch (err) {
@@ -166,7 +166,7 @@ app.post("/api/signup", async (req, res) => {
       [username, email, hashedPassword]
     );
 
-    const token = jwt.sign({ userId: newUser.rows[0].user_id }, "your_jwt_secret", { expiresIn: "1h" });
+    const token = jwt.sign({ userId: newUser.rows[0].user_id }, process.env.JWT_SECRET, { expiresIn: "8h" });
     res.status(201).json({ message: "User created successfully", token });
     
   } catch (err) {
@@ -191,7 +191,7 @@ app.post("/api/login", async (req, res) => {
       return res.status(400).json({ error: "Invalid password" });
     }
 
-    const token = jwt.sign({ userId: user.rows[0].user_id }, "your_jwt_secret", { expiresIn: "1h" });
+    const token = jwt.sign({ userId: user.rows[0].user_id }, process.env.JWT_SECRET, { expiresIn: "8h" });
     res.json({ message: "Login successful", token });
   } catch (err) {
     console.error("Detailed Error:", err.message);

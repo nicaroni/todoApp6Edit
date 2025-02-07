@@ -32,12 +32,12 @@ $themes: (
     back-color: #f1f9ff,
     container-color:#ceebff,
     text-color: #ffffff,
-    table-bg: #1b98c9,
-    text-input:rgb(65, 132, 163),
+    table-bg: #7bcbeb,
+    text-input:rgb(46, 46, 46),
     table-input: #ff9595,
     
     second-color: rgb(120, 172, 192),
-    third-color:white,
+    third-color:rgb(41, 40, 40),
     background-color: #1f1f20,
     line-color: rgb(255, 255, 255),
   ),
@@ -45,8 +45,8 @@ $themes: (
     back-color: #f5fff9,
     container-color:#c5ffdf,
     text-color: #ffffff,
-    table-bg: #d69bbd,
-    text-input:rgb(44, 160, 102),
+    table-bg: #e4c0d5,
+    text-input:rgb(48, 48, 48),
     table-input: #ff9595,
     
     second-color: rgb(92, 177, 137),
@@ -59,7 +59,7 @@ $themes: (
     container-color:#fce1fd,
     text-color: #fffeff,
     table-bg: #90cce6,
-    text-input:hsl(288, 96%, 72%),
+    text-input:hsl(0, 0%, 23%),
     table-input: #f50505,
     
     second-color: hsl(288, 100%, 78%),
@@ -136,7 +136,11 @@ $themes: (
     }
     
     .todo-description {
+      border-radius: 20px;
       color: map.get($map, table-bg);
+      background-color: map.get($map, table-bg);
+      font-weight: 600;
+      
       
     }
    

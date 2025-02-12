@@ -45,7 +45,7 @@ const TodoForm = ({ dispatch }) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <button className="btn btn-primary add-todo-btn" type="submit">Add</button>
+        <button className="btn btn-primary squishy add-todo-btn" type="submit">Add</button>
       </div>
     </form>
   );

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
@@ -6,18 +7,26 @@ const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 
+
 const app = express();
+app.set("trust proxy", 1);
+
+
+const isProduction = process.env.NODE_ENV === "production";
 const PORT = process.env.PORT || 5000;
 const corsOptions = {
-  origin: process.env.FRONTEND_URL?.split(",") || "*",  // Allow only your front-end domain
-  methods: ["GET", "POST", "PUT", "DELETE"],  // Allow only necessary methods
-  allowedHeaders: ["Content-Type", "Authorization"],  // Allow only necessary headers
-  credentials: true,  // Enable cookies/auth tokens to be sent
-  preflightContinue: false,  // Don't allow preflight requests to be passed along
-  optionsSuccessStatus: 204,  // Some legacy browsers choke on 204 status
+  origin: isProduction 
+    ? ["https://vermillion-tarsier-bf3c8e.netlify.app"] 
+    : ["http://localhost:3000"], // Allow localhost during development
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+  credentials: true,
 };
+
+
 // Middleware
 app.use(cors(corsOptions));
+app.options("*", cors());
 app.use(helmet());
 app.use(express.json()); // Allow JSON request bodies
 

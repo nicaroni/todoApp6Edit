@@ -32,7 +32,7 @@ $themes: (
     back-color: #f1f9ff,
     container-color:#ceebff,
     text-color: #ffffff,
-    table-bg: #7bcbeb,
+    table-bg: #ffffff,
     text-input:rgb(46, 46, 46),
     table-input: #ff9595,
     
@@ -58,7 +58,7 @@ $themes: (
     back-color: #ffffff,
     container-color:#fce1fd,
     text-color: #fffeff,
-    table-bg: #90cce6,
+    table-bg: #ffffff,
     text-input:hsl(0, 0%, 23%),
     table-input: #f50505,
     
@@ -110,19 +110,69 @@ $themes: (
         color:map.get($map, table-bg);
         border-color: #ffffff;
       }
-      .add-todo-btn{
-        color: map.get($map, table-bg);
-      }
+      
       .circle{
         color: map.get($map, second-color);
         border-color:map.get($map, second-color);
       }
-      .table-like-row .add-todo-btn{
-        padding: 5px;
+     
+      .add-todo-btn {
+        width: 70px;
+        height: 40px;
+        margin: 13px;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: #111;
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
         border-radius: 10px;
-        border: 3px solid white;
-        box-shadow: rgba(46, 75, 240, 0.4) 5px 5px, rgba(46, 49, 240, 0.3) 10px 10px, rgba(65, 46, 240, 0.2) 15px 15px, rgba(98, 46, 240, 0.1) 20px 20px, rgba(75, 46, 240, 0.05)25px 25px;
+    
+        }
+      .add-todo-btn:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left:-2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
       }
+      .add-todo-btn:active {
+        color: #000
+      }
+      .add-todo-btn:active:after  {
+        background: transparent;
+      }
+      .add-todo-btn:hover:before  {
+        opacity: 1;
+
+      }
+      .add-todo-btn:after  {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+
+      }
+      @keyframes glowing {
+        0% { background-position: 0 0; }
+        50% { background-position: 400% 0; }
+        100% { background-position: 0 0; }
+    }
     }
     
     
@@ -136,6 +186,9 @@ $themes: (
     }
     
     .todo-description {
+      padding: 4px;
+      padding-left: 10px;
+      padding-right: 10px;
       border-radius: 20px;
       color: map.get($map, table-bg);
       background-color: map.get($map, table-bg);

@@ -121,10 +121,6 @@ const TodoList = ({ todos, dispatch }) => {
 
 export default TodoList;
 
-// TODO check why when refresh the page my completed* todos are going back to uncompleted ones !checked
-// TODO completed tables problem in todoList and todoItem  !checked
-// TODO I havve to make another page that wil come only after signUp, or after clickin on pictograme in todoTable
-// TODO explain your code
 
 
 

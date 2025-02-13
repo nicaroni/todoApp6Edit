@@ -1,25 +1,51 @@
-export const initialState = [];
+export const initialState = {
+  completedTodos: [],
+  uncompletedTodos: [],
+};
+
 
 const todoReducer = (state, action) => {
   switch (action.type) {
     case "SET_TODOS":
-      return action.payload;  // Set todos from the backend
+      return {
+        completedTodos: action.payload.completedTodos || [],
+        uncompletedTodos: action.payload.uncompletedTodos || [],
+      };
     case "ADD_TODO":
-      return [...state, action.payload];  // Add new todo
+      return {
+        ...state,
+        uncompletedTodos: [...state.uncompletedTodos, action.payload],
+      };
     case "DELETE_TODO":
-      return state.filter(todo => todo.todo_id !== action.payload);  // Remove deleted todo from state
+      return {
+        ...state,
+        completedTodos: state.completedTodos.filter(todo => todo.todo_id !== action.payload),
+        uncompletedTodos: state.uncompletedTodos.filter(todo => todo.todo_id !== action.payload),
+      };
     case "TOGGLE_TODO_COMPLETED":
-      return state.map(todo =>
-        todo.todo_id === action.payload.todo_id
-          ? { ...todo, completed: action.payload.completed }
-          : todo
-      ); 
-      case "UPDATE_TODO":
-        return state.map(todo =>
+      return {
+        ...state,
+        completedTodos: action.payload.completed
+          ? [...state.completedTodos, action.payload]
+          : state.completedTodos.filter(todo => todo.todo_id !== action.payload.todo_id),
+        uncompletedTodos: action.payload.completed
+          ? state.uncompletedTodos.filter(todo => todo.todo_id !== action.payload.todo_id)
+          : [...state.uncompletedTodos, action.payload],
+      };
+    case "UPDATE_TODO":
+      return {
+        ...state,
+        completedTodos: state.completedTodos.map(todo =>
           todo.todo_id === action.payload.todo_id
             ? { ...todo, description: action.payload.description }
             : todo
-        );  // Update description of the todo // Toggle completed status locally
+        ),
+        uncompletedTodos: state.uncompletedTodos.map(todo =>
+          todo.todo_id === action.payload.todo_id
+            ? { ...todo, description: action.payload.description }
+            : todo
+        ),
+      };
     default:
       return state;
   }

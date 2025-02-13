@@ -7,6 +7,9 @@ import '../assets/styles/todoMain.scss';
 import NavBar from '../components/NavbarPart';
 import confetti from "canvas-confetti";
 import API_URL from '../config';
+import PomodoroTimer from "../components/PomodoroTimerContainer";
+import Calendar from "../components/Calendar";
+
 
 // Add this to your app
 
@@ -18,62 +21,78 @@ const TodoList = React.lazy(() => import('../components/TodoList'));
 
 
 const TodoPage = () => {
-
-
   const [todos, dispatch] = useReducer(todoReducer, initialState);
-  const [showCompleted, setShowCompleted] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem('selectedTheme') || 'theme-light');
+  const [theme, setTheme] = useState(localStorage.getItem("selectedTheme") || "theme-light");
 
-
-  // Fetch all todos from the server on component mount
+  // ✅ Fetch all todos from the server on component mount
   useEffect(() => {
     const fetchTodos = async () => {
-      const token = localStorage.getItem('token');
-
-      if (token) {
+      const token = localStorage.getItem("token");
+    
+      if (!token) {
         console.log("No token found, redirecting to login...");
-        if (!token) {
-          console.log("No token found, redirecting to login...");
-          return;
-        }
-        try {
-          const response = await axios.get(`${API_URL}/todos`, {
-          headers:{
+        return;
+      }
+    
+      try {
+        const response = await axios.get(`${API_URL}/todos`, {
+          headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-       // Filter the todos into completed and uncompleted
-       const completedTodos = response.data.filter(todo => todo.completed);
-       const uncompletedTodos = response.data.filter(todo => !todo.completed);
-       
-       
-       // Dispatch both completed and uncompleted todos
-       dispatch({ type: "SET_TODOS", payload: { completedTodos, uncompletedTodos } });
+    
+        console.log("Fetched Todos:", response.data); // ✅ Debugging
+    
+        const completedTodos = response.data.filter(todo => todo.completed);
+        const uncompletedTodos = response.data.filter(todo => !todo.completed);
+    
+        dispatch({ type: "SET_TODOS", payload: { completedTodos, uncompletedTodos } });
+      } catch (err) {
+        console.error("Error fetching todos:", err);
+      }
+    };
+    
 
-     } catch (err) {
-       console.error("Error fetching todos:", err);
-     }
-   } else {
-     console.log("No token found, user might not be authenticated");
-   }
- };
-
-    fetchTodos();
-  }, []);
+    fetchTodos(); // ✅ Make sure to call the function inside useEffect
+  }, []); // Empty dependency array means it runs once on mount
 
   useEffect(() => {
-    document.body.setAttribute('data-theme', theme);  // ✅ Apply theme to body
+    document.body.setAttribute("data-theme", theme); // ✅ Apply theme to body
   }, [theme]);
   
+  
   return (
-    <div className={`container ${theme}`}>
-      <NavBar />
-      <h1 className={`my-4 ${theme}`}>Todo App</h1>
-      <Suspense fallback={<div>Loading List...</div>}>
-        <TodoList todos={todos} dispatch={dispatch} />
-      </Suspense>
-    </div>
+
+  
+      <div className="todos-page">
+   <div className="calendar">
+   
+    <Calendar  />
+        </div>
+  
+        <div className={`container todo-table ${theme}`}>
+         
+          <NavBar />
+          <h1 className={`my-4 ${theme}`}>Todo App</h1>
+          
+          <Suspense fallback={<div>Loading List...</div>}>
+            {todos && todos.completedTodos && todos.uncompletedTodos ? (
+              <>
+                {console.log("Rendering TodoList...")}
+                <TodoList todos={[...todos.completedTodos, ...todos.uncompletedTodos]} dispatch={dispatch} />
+              </>
+            ) : (
+              <div>No Todos Found</div>  // ❌ If this appears, `todos` is empty
+            )}
+          </Suspense>
+        </div>
+        <div className="pomodoro-timer">
+     <PomodoroTimer theme={theme} />
+        </div>
+      </div>
+   
   );
+  
 };
 
 export default TodoPage;

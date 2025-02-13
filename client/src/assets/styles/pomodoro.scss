@@ -1,0 +1,104 @@
+.pomodoro-timer {
+    flex: 1;
+    display: flex;  // ✅ Ensure it's visible
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    min-width: 250px; // ✅ Ensure it doesn’t collapse
+    max-width: 400px; // ✅ Prevent it from taking too much space
+    min-height: 200px; // ✅ Prevent height collapse
+  }
+  
+  .pomodoro-container {
+    display: flex !important;
+flex-direction: column;
+    .pomodoro-style{
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        width: 260px;
+        height: 260px;
+        background-color: #dbdbdb;
+        border-radius: 30px;
+        .pomodoro-circle1{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+            width: 220px;
+            height: 220px;
+            background-color: #d9534f;
+            border-radius: 120px;
+            
+
+            .pomodoro-circle2{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+                width: 200px;
+                height:200px;
+                background-color: #500502;
+                border-radius: 120px;
+            
+                .pomodoro-circle3{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    align-content: center;
+                width: 180px;
+                height:180px;
+                border: 7px solid white;
+                border-radius: 120px;
+
+                .pomodoro-content{
+                    
+                    display: flex;
+                    align-content: center;
+                    align-items: center;
+                    justify-content: center;
+
+                }
+
+                }
+            }
+        }
+    }
+}
+
+  
+  .timer {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #d9534f;
+  }
+  
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  button {
+    padding: 8px 12px;
+    margin: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  button:nth-child(1) { background: green; color: white; } // Start
+  button:nth-child(2) { background: orange; color: white; } // Pause
+  button:nth-child(3) { background: blue; color: white; } // Continue
+  button:nth-child(4) { background: red; color: white; } // Reset
+  

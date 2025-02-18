@@ -26,13 +26,15 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
-  padding: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
   background-color: white !important;  // ✅ Ensure it's not blending with the background
 }
 
 
 .todo-table {
- 
+  width: 900px;
+  height: 700px;
   .my-4 {
     color: $primary;
     font-weight: 700;
@@ -55,7 +57,7 @@ body {
 
 // Main todos table styling
 .main-todo-table {
-  width: 100%;
+  
   border-collapse: separate;
   border-spacing: 0;
   

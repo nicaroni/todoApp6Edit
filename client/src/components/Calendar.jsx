@@ -40,43 +40,28 @@ const Calendar = () => {
     setShowModal(true);
   };
 
+  const openMoreEvents =  (events) => {
+    
+  }
   // ✅ Save new event
   const addEvent = () => {
-    const eventDate = `${selectedDay}-${currentMonth}-${currentYear}`;
-    const newEvent = { name: eventName, time: eventTime, emoji: eventEmoji };
-    
+    const eventKey = `${selectedDay}-${currentMonth}-${currentYear}`; // ✅ This is correctly defined
+    const newEvent = { name: eventName, emoji: eventEmoji }; // ✅ Store name & emoji only
+  
     setEvents((prev) => ({
       ...prev,
-      [eventDate]: prev[eventDate] ? [...prev[eventDate], newEvent] : [newEvent],
+      [eventKey]: prev[eventKey] ? [...prev[eventKey], newEvent] : [newEvent], // ✅ Use `eventKey` instead of `eventDate`
     }));
+  
 
     setEventName("");
-    setEventTime("");
     setShowModal(false);
   };
 
   return (
     <div className="calendar-container">
       {/* Sidebar: Events List */}
-      <div className="event-sidebar">
-        <h3>📅 Events</h3>
-        {Object.keys(events).length > 0 ? (
-          Object.entries(events).map(([date, eventList]) => (
-            <div key={date} className="event-day">
-              <strong>{date}</strong>
-              {eventList.slice(0, 3).map((event, idx) => (
-                <p key={idx}>
-                  {event.emoji} {event.name} - {event.time}
-                </p>
-              ))}
-              {eventList.length > 3 && <p>+ {eventList.length - 3} more...</p>}
-            </div>
-          ))
-        ) : (
-          <p>No events yet.</p>
-        )}
-      </div>
-
+     
       {/* Main Calendar */}
       <div className="custom-calendar">
         {/* Year Picker */}
@@ -104,13 +89,24 @@ const Calendar = () => {
         {/* Date Selector */}
         <div className="date-grid">
           {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => (
-            <button
-              key={day}
-              className={day === selectedDay ? "active" : ""}
-              onClick={() => openEventModal(day)}
-            >
-              {day}
-            </button>
+           <div id="days-conrainer" className={day === selectedDay ? "active" : ""}
+           onClick={() => openEventModal(day)}>
+              <div className="num-all">
+              <div className="num">
+                    {day}
+              </div>
+            <div className="events-written">
+            {events[`${day}-${currentMonth}-${currentYear}`]?.map((event, idx) => (
+              <div className="event-item-container ">
+                    <p key={idx} className="event-item">
+                      {event.emoji} <strong>{event.name}</strong>
+                    </p>
+                    </div>
+                  ))}
+          </div>
+        </div>
+              <button className="show-more" >more</button>
+        </div>
           ))}
         </div>
 

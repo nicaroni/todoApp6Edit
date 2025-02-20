@@ -1,7 +1,6 @@
-
 .custom-calendar {
   flex: 1;
-  background: #ffffff;
+  background: #fafafa;
   padding: 7px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -18,7 +17,7 @@
     background: white;
     border-radius: 8px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-
+  
     button {
       border: none;
       background: none;
@@ -26,12 +25,12 @@
       cursor: pointer;
       color: #6c757d;
       transition: 0.2s;
-
+  
       &:hover {
         color: #343a40;
       }
     }
-
+  
     .current-year {
       font-size: 1.6rem;
       color: #6f42c1;
@@ -43,10 +42,10 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
     margin-top: 15px;
-
+  
     button {
       border: none;
-      background: white;
+      background: rgb(239, 239, 239);
       padding: 10px;
       font-size: 0.9rem;
       font-weight: bold;
@@ -54,12 +53,12 @@
       cursor: pointer;
       transition: 0.2s;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-
+  
       &:hover {
         background: #6f42c1;
         color: white;
       }
-
+  
       &.active {
         background: #6f42c1;
         color: white;
@@ -71,7 +70,7 @@
     width: 545px;
     height: 500px;
     display: grid;
-    grid-template-columns: repeat(7, 0.11fr); // 7 columns like a real calendar
+    grid-template-columns: repeat(7, 1fr); // 7 columns for days of the week
     gap: 6px;
     margin-top: 15px;
     padding: 8px;
@@ -79,17 +78,16 @@
     border-radius: 10px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.6);
 
-    #days-conrainer {
+    #days-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-left: 10px;
-      padding-right: 10px;
-      height: 120px;
+      justify-content: space-between;
+      padding: 8px;
+      height: 100px;
       width: 70px;
       border: none;
-      background: white;
-      
+      background: rgb(255, 255, 255);
       font-size: 0.9rem;
       font-weight: bold;
       border-radius: 5px;
@@ -105,26 +103,62 @@
         background: #6f42c1;
         color: white;
       }
-      .num-all{
-        display: flex;
-        
-        padding-left: 15px ;
-        align-content: flex-start;
 
-        .num{
-          justify-content: flex-start;
-          font-size: 20px;
-        }
+      .num {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .add-event-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgb(255, 145, 18);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 16px;
+        width: 30px;
+        height: 30px;
+        
+        
       }
       
-    }
-  }
 
-  .selected-date {
-    margin-top: 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #343a40;
+      .events-written {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+
+        .event-item {
+          background: #f3f3f3;
+          padding: 2px 5px;
+          border-radius: 4px;
+          font-weight: bold;
+          text-align: center;
+          font-size: 0.8rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 90%;
+        }
+
+        .show-more {
+          background: #6f42c1;
+          color: white;
+          border: none;
+          padding: 3px 5px;
+          font-size: 0.7rem;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-top: 2px;
+
+          &:hover {
+            background: #5a3394;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -134,38 +168,11 @@
   padding-top: 10px;
 }
 
-.events-written{
-  display: flex;
-    padding:0;
-  flex-direction: column;
-  
-
-
-.event-item-container{
- 
-
- 
-
-  p {
-    background: #f3f3f3;
-    padding: 2px 5px;
-    border-radius: 4px;
-    font-weight: bold;
-  }
-}
-}
-
-
-.event-day {
-  margin-bottom: 10px;
-}
-
-.custom-calendar {
-  flex: 1;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.selected-date {
+  margin-top: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #343a40;
 }
 
 .event-modal {
@@ -177,6 +184,29 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
+  max-width: 400px;
+  width: 100%;
+  z-index: 1000;
 
+  .event-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 6px;
+      text-align: center;
+    }
+
+    th {
+      background: #6f42c1;
+      color: white;
+    }
+
+    td {
+      background: #f9f9f9;
+    }
+  }
+}
 

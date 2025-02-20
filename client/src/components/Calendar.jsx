@@ -15,6 +15,7 @@ const Calendar = () => {
   const [eventName, setEventName] = useState("");
   const [eventTime, setEventTime] = useState("");
   const [eventEmoji, setEventEmoji] = useState("📌");
+  const [selectedEventDate, setSelectedEventDate] = useState(null);
 
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -38,15 +39,18 @@ const Calendar = () => {
   const openEventModal = (day) => {
     setSelectedDay(day);
     setShowModal(true);
+    setSelectedEventDate(null);
   };
 
-  const openMoreEvents =  (events) => {
+  const openMoreEvents =  (day) => {
+    setSelectedEventDate(`${day}-${currentMonth}-${currentYear}`);
+    setShowModal(true);
     
   }
   // ✅ Save new event
   const addEvent = () => {
     const eventKey = `${selectedDay}-${currentMonth}-${currentYear}`; // ✅ This is correctly defined
-    const newEvent = { name: eventName, emoji: eventEmoji }; // ✅ Store name & emoji only
+    const newEvent = { name: eventName, time: eventTime, emoji: eventEmoji };
   
     setEvents((prev) => ({
       ...prev,
@@ -55,6 +59,7 @@ const Calendar = () => {
   
 
     setEventName("");
+    setEventTime("");
     setShowModal(false);
   };
 
@@ -88,26 +93,34 @@ const Calendar = () => {
 
         {/* Date Selector */}
         <div className="date-grid">
-          {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => (
-           <div id="days-conrainer" className={day === selectedDay ? "active" : ""}
-           onClick={() => openEventModal(day)}>
-              <div className="num-all">
-              <div className="num">
-                    {day}
+          {Array.from({ length: daysInMonth }, (_, i) => {
+            const day = i + 1;
+            const eventKey = `${day}-${currentMonth}-${currentYear}`;
+            const eventList = events[eventKey] || [];
+
+            return (
+              <div key={day} id="days-container" className={day === selectedDay ? "active" : ""}>
+                <div className="num-all">
+                  <div className="num">{day}</div>
+                  <div className="events-written">
+                    {eventList.slice(0, 2).map((event, idx) => (
+                      <div key={idx} className="event-item-container">
+                        <div className="event-item">
+                          {event.emoji} <strong>{event.name}</strong>
+                        </div>
+                      </div>
+                    ))}
+                    {eventList.length > 2 && (
+                      <button className="show-more" onClick={() => openMoreEvents(day)}>
+                        +{eventList.length - 2} more
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <button className="add-event-btn" onClick={() => openEventModal(day)}>+</button>
               </div>
-            <div className="events-written">
-            {events[`${day}-${currentMonth}-${currentYear}`]?.map((event, idx) => (
-              <div className="event-item-container ">
-                    <p key={idx} className="event-item">
-                      {event.emoji} <strong>{event.name}</strong>
-                    </p>
-                    </div>
-                  ))}
-          </div>
-        </div>
-              <button className="show-more" >more</button>
-        </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Selected Date Display */}
@@ -115,31 +128,56 @@ const Calendar = () => {
           📅 Selected: <strong>{selectedDay} {months[currentMonth]} {currentYear}</strong>
         </div>
       </div>
-
-      {/* Event Modal */}
-      {showModal && (
+ {/* Event Modal */}
+ {showModal && (
         <div className="event-modal">
-          <h3>Add Event for {selectedDay} {months[currentMonth]} {currentYear}</h3>
-          <input
-            type="text"
-            placeholder="Event Name"
-            value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
-          />
-          <input
-            type="time"
-            value={eventTime}
-            onChange={(e) => setEventTime(e.target.value)}
-          />
-          <select value={eventEmoji} onChange={(e) => setEventEmoji(e.target.value)}>
-            <option>📌</option>
-            <option>🎉</option>
-            <option>🏋️</option>
-            <option>🎂</option>
-            <option>🎭</option>
-          </select>
-          <button onClick={addEvent}>Save</button>
-          <button onClick={() => setShowModal(false)}>Cancel</button>
+          {selectedEventDate ? (
+            <>
+              <h3>Events on {selectedEventDate}</h3>
+              <table className="event-table">
+                <thead>
+                  <tr>
+                    <th>Emoji</th>
+                    <th>Name</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {events[selectedEventDate].sort((a, b) => a.time.localeCompare(b.time)).map((event, idx) => (
+                    <tr key={idx}>
+                      <td>{event.emoji}</td>
+                      <td>{event.name}</td>
+                      <td>{event.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          ) : (
+            <>
+              <h3>Add Event for {selectedDay} {months[currentMonth]} {currentYear}</h3>
+              <input
+                type="text"
+                placeholder="Event Name"
+                value={eventName}
+                onChange={(e) => setEventName(e.target.value)}
+              />
+              <input
+                type="time"
+                value={eventTime}
+                onChange={(e) => setEventTime(e.target.value)}
+              />
+              <select value={eventEmoji} onChange={(e) => setEventEmoji(e.target.value)}>
+                <option>📌</option>
+                <option>🎉</option>
+                <option>🏋️</option>
+                <option>🎂</option>
+                <option>🎭</option>
+              </select>
+              <button onClick={addEvent}>Save</button>
+            </>
+          )}
+          <button onClick={() => { setShowModal(false); setSelectedEventDate(null); }}>Close</button>
         </div>
       )}
     </div>

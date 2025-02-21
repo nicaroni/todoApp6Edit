@@ -103,21 +103,32 @@ const Calendar = () => {
                 <div className="num-all">
                   <div className="num">{day}</div>
                   <div className="events-written">
-                    {eventList.slice(0, 2).map((event, idx) => (
+                    {eventList.slice(0, 1).map((event, idx) => (
                       <div key={idx} className="event-item-container">
                         <div className="event-item">
                           {event.emoji} <strong>{event.name}</strong>
                         </div>
                       </div>
                     ))}
-                    {eventList.length > 2 && (
+                    {eventList.length > 1 && (
+                      <div className="show-more-container">
+                      
                       <button className="show-more" onClick={() => openMoreEvents(day)}>
-                        +{eventList.length - 2} more
-                      </button>
+                      +{eventList.length - 1} more
+                      </button> 
+                      <button className="add-event-btn" onClick={() => openEventModal(day)}>+</button>
+                      </div>
                     )}
+                    {eventList.length < 2 && (
+                      <div className="show-more-container">
+                      <button className="add-event-btn" onClick={() => openEventModal(day)}>+</button>
+                     
+                      </div>
+                    )}
+                    
                   </div>
                 </div>
-                <button className="add-event-btn" onClick={() => openEventModal(day)}>+</button>
+                
               </div>
             );
           })}

@@ -13,6 +13,9 @@ const Calendar = () => {
   const [events, setEvents] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [eventName, setEventName] = useState("");
+  const [hoveredEvent, setHoveredEvent] = useState(null);
+  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+
   const [eventTime, setEventTime] = useState("");
   const [eventEmoji, setEventEmoji] = useState("📌");
   const [selectedEventDate, setSelectedEventDate] = useState(null);
@@ -103,23 +106,34 @@ const Calendar = () => {
                 <div className="num-all">
                   <div className="num">{day}</div>
                   <div className="events-written">
-                    {eventList.slice(0, 1).map((event, idx) => (
-                      <div key={idx} className="event-item-container">
+                    {eventList.slice(0,3).map((event, idx) => (
+                      <div key={idx} className="event-item-container"      onMouseEnter={(e) => {
+                        const eventRect = e.currentTarget.getBoundingClientRect();
+                        const calendarRect = document.querySelector(".custom-calendar").getBoundingClientRect();
+                  
+                        setHoveredEvent({ name: event.name, time: event.time, emoji: event.emoji });
+                  
+                        setHoverPosition({
+                          x: eventRect.left - calendarRect.left, // ✅ Keeps it inside the calendar
+                          y: eventRect.top - calendarRect.top - 30, // ✅ Places it above the event
+                        });
+                      }}
+                      onMouseLeave={() => setHoveredEvent(null)}>
                         <div className="event-item">
                           {event.emoji} <strong>{event.name}</strong>
                         </div>
                       </div>
                     ))}
-                    {eventList.length > 1 && (
+                    {eventList.length > 3 && (
                       <div className="show-more-container">
                       
                       <button className="show-more" onClick={() => openMoreEvents(day)}>
-                      +{eventList.length - 1} more
+                      +{eventList.length - 3} more
                       </button> 
                       <button className="add-event-btn" onClick={() => openEventModal(day)}>+</button>
                       </div>
                     )}
-                    {eventList.length < 2 && (
+                    {eventList.length < 4 && (
                       <div className="show-more-container">
                       <button className="add-event-btn" onClick={() => openEventModal(day)}>+</button>
                      
@@ -191,6 +205,21 @@ const Calendar = () => {
           <button onClick={() => { setShowModal(false); setSelectedEventDate(null); }}>Close</button>
         </div>
       )}
+        {hoveredEvent && (
+     <div className="hovar-container">
+         <div className="hover-modal" style={{
+        left: `${hoverPosition.x}px`,
+        top: `${hoverPosition.y}px`
+      }}>
+        <h4>{hoveredEvent.emoji} {hoveredEvent.name}</h4>00
+        <p>Time: {hoveredEvent.time || "N/A"}</p>
+      </div>
+     </div>
+    
+    )}
+  
+
+
     </div>
   );
 };

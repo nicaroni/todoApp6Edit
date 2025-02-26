@@ -1,4 +1,5 @@
 .custom-calendar {
+  position: relative; // ✅ Ensures hover modal positions inside calendar
   flex: 1;
   background: #fafafa;
   padding: 7px;
@@ -6,6 +7,9 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   max-width: 600px;
+ 
+
+  
 
   .year-picker {
     display: flex;
@@ -68,7 +72,7 @@
 
   .date-grid {
     width: 545px;
-    height: 500px;
+    height: 600px;
     display: grid;
     grid-template-columns: repeat(7, 1fr); // 7 columns for days of the week
     gap: 6px;
@@ -84,7 +88,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 8px;
-      height: 100px;
+      height: 130px;
       width: 70px;
       border: none;
       background: rgb(255, 255, 255);
@@ -115,10 +119,11 @@
         background: rgb(255, 145, 18);
         color: white;
         border: none;
+        
         border-radius: 50%;
         font-size: 16px;
-        width: 30px;
-        height: 30px;
+        width: 20px;
+        height: 25px;
         
         
       }
@@ -128,7 +133,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         align-content: center;
         gap: 4px;
         max-width: 15px;
@@ -136,20 +141,28 @@
 
         .event-item-container {
           display: flex;
-          justify-content: center;
+          justify-content: flex-start;
+          height: 15px;
+          width: 65px;
+          
+          
           
           .event-item {
-          
+            color: black;
             background: #f3f3f3;
-            padding: 2px 5px;
+            padding-left: 5px;
+            padding-right: 5px;
             border-radius: 4px;
-            font-weight: bold;
+            font-weight: 300;
             text-align: center;
-            font-size: 0.8rem;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 70%;
+            
+            
             
           }
         }
@@ -165,7 +178,7 @@
             color: white;
             border: none;
             padding: 3px 3px;
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             border-radius: 10px;
             cursor: pointer;
             margin-top: 2px;
@@ -194,10 +207,12 @@
   font-weight: bold;
   color: #343a40;
 }
+.custom-calendar{
+   // ✅ Ensures hover modal positions inside calendar
 
 .event-modal {
-  position: fixed;
-  top: 30%;
+  position: absolute;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
@@ -206,7 +221,8 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   max-width: 400px;
   width: 100%;
-  z-index: 1000;
+  z-index: 1000; // ✅ Ensure it appears above everything
+  
 
   .event-table {
     width: 100%;
@@ -227,6 +243,36 @@
     td {
       background: #f9f9f9;
     }
+    .hovar-container { 
+      background-color: #343a40;
+    .hover-modal {
+      position: absolute; // ✅ Keeps it inside the calendar without affecting layout
+    background: #ffffff;
+    color: black;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    max-width: 100px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+    z-index: 2000; // ✅ Ensure it appears above everything
+    pointer-events: none; // ✅ Prevents interaction issues✅ Keeps it directly above event-itemsures it stays above the event
+      &.visible {
+        opacity: 1;
+      }
+    
+      p {
+        margin: 5px 0; // ✅ Adds spacing between text lines
+        line-height: 3; // ✅ Improves readability
+        word-break: break-word; // ✅ Forces breaks even in long words
+      }
+    }
+  }
+    
   }
 }
 
+}

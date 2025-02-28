@@ -153,7 +153,13 @@ const TodoItem = ({ todo, dispatch, startPomodoro }) => {
         )}
       </td> 
       <td className="todo-time-spent">
-  ⏳ {todo.time_spent || 0} min
+        <div className="emoji-timer">
+        ⏳
+        </div>
+        <div className="time-spent-text">
+        {todo.time_spent || 0} min
+        </div>
+  
       </td>
 
       <td className="delete-btn-cell">

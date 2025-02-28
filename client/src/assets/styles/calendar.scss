@@ -1,3 +1,7 @@
+.calendar-container{
+  position: relative; 
+
+
 .custom-calendar {
   position: relative; // ✅ Ensures hover modal positions inside calendar
   flex: 1;
@@ -170,9 +174,7 @@
           display: flex;
           flex-direction: row;
           justify-content: center;
-          .add-event-btn{
-
-          }
+         
           .show-more {
             background: #6f42c1;
             color: white;
@@ -193,35 +195,27 @@
       }
     }
   }
-}
 
-.calendar-container {
-  display: flex;
-  gap: 20px;
-  padding-top: 10px;
+  .selected-date {
+    margin-top: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #343a40;
+  }
 }
-
-.selected-date {
-  margin-top: 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #343a40;
-}
-.custom-calendar{
-   // ✅ Ensures hover modal positions inside calendar
 
 .event-modal {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 40%;
+  left: 140%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: #ffffff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   max-width: 400px;
   width: 100%;
-  z-index: 1000; // ✅ Ensure it appears above everything
+  z-index: 1000;
   
 
   .event-table {
@@ -243,36 +237,41 @@
     td {
       background: #f9f9f9;
     }
-    .hovar-container { 
-      background-color: #343a40;
-    .hover-modal {
-      position: absolute; // ✅ Keeps it inside the calendar without affecting layout
-    background: #ffffff;
-    color: black;
-    padding: 8px;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    max-width: 100px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    text-align: center;
-    z-index: 2000; // ✅ Ensure it appears above everything
-    pointer-events: none; // ✅ Prevents interaction issues✅ Keeps it directly above event-itemsures it stays above the event
-      &.visible {
-        opacity: 1;
-      }
-    
-      p {
-        margin: 5px 0; // ✅ Adds spacing between text lines
-        line-height: 3; // ✅ Improves readability
-        word-break: break-word; // ✅ Forces breaks even in long words
-      }
-    }
-  }
-    
+   
+  }}
+
+
+
+
+.hovar-container {  
+  background-color: #343a40;
+.hover-modal {
+  position: absolute;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+  z-index: 1000;
+  pointer-events: none;
+  
+
+     p {
+       margin: 15px 0; // ✅ Adds spacing between text lines
+       line-height: 1; // ✅ Improves readability
+       word-break: break-word; // ✅ Forces breaks even in long words
+     }
   }
 }
 
+
 }
+
+
+
+

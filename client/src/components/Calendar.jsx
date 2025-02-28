@@ -71,7 +71,7 @@ const Calendar = () => {
       {/* Sidebar: Events List */}
      
       {/* Main Calendar */}
-      <div className="custom-calendar">
+      <div className="custom-calendar" >
         {/* Year Picker */}
         <div className="year-picker">
           <button onClick={() => setCurrentYear(currentYear - 1)}>‹</button>
@@ -107,15 +107,15 @@ const Calendar = () => {
                   <div className="num">{day}</div>
                   <div className="events-written">
                     {eventList.slice(0,3).map((event, idx) => (
-                      <div key={idx} className="event-item-container"      onMouseEnter={(e) => {
+                      <div key={idx} className="event-item-container"     onMouseEnter={(e) => {
                         const eventRect = e.currentTarget.getBoundingClientRect();
                         const calendarRect = document.querySelector(".custom-calendar").getBoundingClientRect();
-                  
+                      
                         setHoveredEvent({ name: event.name, time: event.time, emoji: event.emoji });
-                  
+                      
                         setHoverPosition({
-                          x: eventRect.left - calendarRect.left, // ✅ Keeps it inside the calendar
-                          y: eventRect.top - calendarRect.top - 30, // ✅ Places it above the event
+                          x: eventRect.left - calendarRect.left + 30, // ✅ Keeps it inside the calendar
+                          y: eventRect.top - calendarRect.top - 50, // ✅ Places it above the event item
                         });
                       }}
                       onMouseLeave={() => setHoveredEvent(null)}>
@@ -155,7 +155,7 @@ const Calendar = () => {
       </div>
  {/* Event Modal */}
  {showModal && (
-        <div className="event-modal">
+        <div className="event-modal" >
           {selectedEventDate ? (
             <>
               <h3>Events on {selectedEventDate}</h3>
@@ -207,10 +207,7 @@ const Calendar = () => {
       )}
         {hoveredEvent && (
      <div className="hovar-container">
-         <div className="hover-modal" style={{
-        left: `${hoverPosition.x}px`,
-        top: `${hoverPosition.y}px`
-      }}>
+         <div className="hover-modal" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }} >
         <h4>{hoveredEvent.emoji} {hoveredEvent.name}</h4>00
         <p>Time: {hoveredEvent.time || "N/A"}</p>
       </div>

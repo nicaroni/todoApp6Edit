@@ -42,6 +42,7 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
+
 // Middleware to verify JWT
 const verifyToken = (req, res, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");  // Extract token from the header
@@ -200,12 +201,51 @@ app.post("/api/login", async (req, res) => {
       return res.status(400).json({ error: "Invalid password" });
     }
 
-    const token = jwt.sign({ userId: user.rows[0].user_id }, process.env.JWT_SECRET, { expiresIn: "8h" });
+    const token = jwt.sign(
+      { userId: user.rows[0].user_id },  // ✅ Payload contains userId
+      process.env.JWT_SECRET,            // ✅ Secret key from .env
+      { expiresIn: "8h" }                // ✅ Token expires in 8 hours
+    );
     res.json({ message: "Login successful", token });
+    
   } catch (err) {
     console.error("Detailed Error:", err.message);
     res.status(500).json({ error: "An unexpected error occurred. Please try again later." });
     
+  }
+});
+
+// Update time spent on a specific todo
+app.put("/todos/:id/time", verifyToken, async (req, res) => {
+  const { id } = req.params;
+  const { minutes } = req.body;
+  const userId = req.user.userId; // Get authenticated user's ID
+
+  console.log(`🔄 Updating time for todo ID: ${id}, User ID: ${userId}, Minutes: ${minutes}`);
+  console.log(`🔄 Incoming request to update time_spent:`);
+  console.log(`   - Todo ID: ${id}`);
+  console.log(`   - User ID: ${userId}`);
+  console.log(`   - Minutes: ${minutes}`);
+
+
+  try {
+    // Update the time spent for the specific todo
+    const result = await pool.query(
+      "UPDATE todo SET time_spent = COALESCE(time_spent, 0) + $1 WHERE todo_id = $2 AND user_id = $3 RETURNING *",
+      [minutes, id, userId]
+    );
+
+    if (result.rows.length === 0) {
+      console.error("❌ Error: Todo not found or not authorized");
+      return res.status(404).json({ error: "Todo not found or you don't have permission" });
+    }
+
+    console.log("✅ Successfully updated time:", result.rows[0]);
+
+    res.json({ message: `Added ${minutes} minutes`, updatedTodo: result.rows[0] });
+  } catch (err) {
+    console.error("❌ Server error when updating time:", err.message);
+    res.status(500).json({ error: "Server error updating time" });
   }
 });
 

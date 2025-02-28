@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import API_URL from '../config';
 
-const TodoItem = ({ todo, dispatch }) => {
+
+const TodoItem = ({ todo, dispatch, startPomodoro }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [input, setInput] = useState(todo.description);
   const [isCompleted, setIsCompleted] = useState(todo.completed);
+  
+  const [hoveredEvent, setHoveredEvent] = useState(null);
+   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
 
 
   const handleComplete = async () => { // Make it async
@@ -96,9 +100,37 @@ const TodoItem = ({ todo, dispatch }) => {
     return new Date(dateString).toLocaleDateString("en-US", options);
   };
 
+  const handlePomodoroEnd = async (todoId) => {
+    try {
+      await axios.put(
+        `${API_URL}/todos/${todoId}/time`,
+        { minutes: 25 },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+  
+      console.log(`Added 25 minutes to todo ${todoId}`);
+    } catch (err) {
+      console.error("Error updating time:", err);
+    }
+  };
+  
+
+  
+
   return (
     <tr className={`todo-item-row ${isCompleted ? "completed" : ""}`}>
-      <td className="circle" onClick={handleComplete}>
+      <td className="circle" onClick={handleComplete}  onMouseEnter={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          setHoveredEvent(true);
+          setHoverPosition({ x: rect.left + 30, y: rect.top - 10 }); // Adjusted position
+        }}
+        onMouseLeave={() => {
+          setTimeout(() => setHoveredEvent(false), 700); // Small delay to allow moving to the icon
+        }}>
         {todo.completed ? "✓" : ""}
         
       </td>
@@ -119,14 +151,53 @@ const TodoItem = ({ todo, dispatch }) => {
         ) : (
           <span onClick={() => setIsEditing(true)}>{todo.description}</span>
         )}
+      </td> 
+      <td className="todo-time-spent">
+  ⏳ {todo.time_spent || 0} min
       </td>
+
       <td className="delete-btn-cell">
         <button className="delete-btn" onClick={handleDelete}>
           Delete
         </button>
       </td>
+
+      {/* Show clock icon on hover */}
+      
+      {hoveredEvent && (
+        <div
+          className="hover-pom-container"
+          onMouseEnter={() => setHoveredEvent(true)} // Prevent disappearance when moving to the icon
+          onMouseLeave={() => setHoveredEvent(false)} // Hide when leaving
+          style={{
+            position: "absolute",
+            left: `${hoverPosition.x}px`,
+            top: `${hoverPosition.y}px`,
+            background: "#fff",
+            padding: "6px",
+            borderRadius: "5px",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+            zIndex: 1000,
+            cursor: "pointer",
+            maxWidth: "100px"
+          }}
+          onClick={() => startPomodoro(todo.todo_id)} // Start Pomodoro with todo ID
+        >
+          <div className="hover-pom">
+            <div className="pom-activat-circle">
+              <div className="timer-icon">
+                <i className="bi bi-clock"></i> {/* Bootstrap Clock Icon */}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </tr>
+
+
+    
   );
+  
 };
 
 

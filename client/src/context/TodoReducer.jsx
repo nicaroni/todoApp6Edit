@@ -46,6 +46,21 @@ const todoReducer = (state, action) => {
             : todo
         ),
       };
+      case "UPDATE_TIME_SPENT":
+        return {
+          completedTodos: state.completedTodos.map(todo =>
+            todo.todo_id === action.payload.todoId
+              ? { ...todo, time_spent: action.payload.newTimeSpent }
+              : todo
+          ),
+          uncompletedTodos: state.uncompletedTodos.map(todo =>
+            todo.todo_id === action.payload.todoId
+              ? { ...todo, time_spent: action.payload.newTimeSpent }
+              : todo
+          ),
+        };
+  
+
     default:
       return state;
   }

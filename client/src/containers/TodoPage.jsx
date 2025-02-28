@@ -23,11 +23,13 @@ const TodoList = React.lazy(() => import('../components/TodoList'));
 const TodoPage = () => {
   const [todos, dispatch] = useReducer(todoReducer, initialState);
   const [theme, setTheme] = useState(localStorage.getItem("selectedTheme") || "theme-light");
+  const [isPomodoroRunning, setIsPomodoroRunning] = useState(false); 
+  const [activeTodoId, setActiveTodoId] = useState(null);
 
   // ✅ Fetch all todos from the server on component mount
-  useEffect(() => {
+  
     const fetchTodos = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
     
       if (!token) {
         console.log("No token found, redirecting to login...");
@@ -47,20 +49,39 @@ const TodoPage = () => {
         const uncompletedTodos = response.data.filter(todo => !todo.completed);
     
         dispatch({ type: "SET_TODOS", payload: { completedTodos, uncompletedTodos } });
+        console.log("State after dispatch:", {
+          completedTodos,
+          uncompletedTodos,
+        }); // ✅ Debug Redux/state update
+    
       } catch (err) {
         console.error("Error fetching todos:", err);
       }
+    }
+    
+    useEffect(() => {
+      fetchTodos();
+    }, []);
+    
+    const refreshTodos = (todoId, newTimeSpent) => {
+      dispatch({
+        type: "UPDATE_TIME_SPENT",
+        payload: { todoId, newTimeSpent },
+      });
     };
     
-
-    fetchTodos(); // ✅ Make sure to call the function inside useEffect
-  }, []); // Empty dependency array means it runs once on mount
 
   useEffect(() => {
     document.body.setAttribute("data-theme", theme); // ✅ Apply theme to body
   }, [theme]);
+
+  const startPomodoro = (todoId) => {
+    setActiveTodoId(todoId); // Set the current todo ID
+    setIsPomodoroRunning(true); // Start Pomodoro
+};
   
-  
+
+
   return (
 
   
@@ -79,7 +100,7 @@ const TodoPage = () => {
             {todos && todos.completedTodos && todos.uncompletedTodos ? (
               <>
                 {console.log("Rendering TodoList...")}
-                <TodoList todos={[...todos.completedTodos, ...todos.uncompletedTodos]} dispatch={dispatch} />
+                <TodoList todos={[...todos.completedTodos, ...todos.uncompletedTodos]} dispatch={dispatch}  startPomodoro={startPomodoro}/>
               </>
             ) : (
               <div>No Todos Found</div>  // ❌ If this appears, `todos` is empty
@@ -87,7 +108,10 @@ const TodoPage = () => {
           </Suspense>
         </div>
         <div className="pomodoro-timer">
-     <PomodoroTimer theme={theme} />
+     <PomodoroTimer theme={theme} 
+    isRunning={isPomodoroRunning} 
+    setIsRunning={setIsPomodoroRunning} 
+    todoId={activeTodoId} refreshTodos={refreshTodos} />
         </div>
       </div>
    

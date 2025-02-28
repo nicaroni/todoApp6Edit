@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #f9f9f9;
+    background: #fdfdfd;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -16,6 +16,67 @@
   .pomodoro-container {
     display: flex !important;
 flex-direction: column;
+justify-content: center;
+align-items: center;
+display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; // Centers everything inside
+
+   // Adjust as needed
+  text-align: center;
+
+//pomodoro h1
+h2 {
+  margin: 0;
+  padding: 0;
+  position: relative; // Remove `absolute` for better centering
+  font-size: 2.5em; // 🔹 Smaller size
+  color: transparent;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Center text inside itself
+  justify-content: center;
+  margin-bottom: 30px;
+}
+h2 span:nth-child(1){
+  position:absolute;
+  top:0; left:0; color: #000;
+  transition:0.5s;
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+  overflow:hidden;
+}
+h2:hover span:nth-child(1){
+  transform:translateY(-18px); 
+}
+h2 span:nth-child(2){
+  position:absolute;
+  top:0; left:0; color: #000;
+  transition:0.5s;
+  clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+  overflow:hidden;
+}
+h2:hover span:nth-child(2){
+  transform:translateY(18px); 
+}
+h2 span:nth-child(3){
+  position:absolute;
+  top:50%; left: 0;
+  transform:translateY(-50%) scaleY(0);
+  width: 91%; color: #000;
+  background:#ff0;
+  font-size: 0.25em; font-weight: 500;
+  letter-spacing:0.7em;
+  text-align:center;
+  padding-left: 20px; margin-left: 5px;
+  transition:0.5s;
+}
+h2:hover span:nth-child(3){
+  transform:translateY(-50%) scaleY(1);
+}
+//style for pomodoro
+
     .pomodoro-style{
         display: flex;
         align-items: center;
@@ -23,7 +84,7 @@ flex-direction: column;
         justify-content: center;
         width: 260px;
         height: 260px;
-        background-color: #dbdbdb;
+        background-image: linear-gradient(to top, #09203f 0%, #537895 100%);;
         border-radius: 30px;
         .pomodoro-circle1{
             display: flex;
@@ -32,8 +93,9 @@ flex-direction: column;
             align-content: center;
             width: 220px;
             height: 220px;
-            background-color: #d9534f;
+            background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
             border-radius: 120px;
+            box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
             
 
             .pomodoro-circle2{
@@ -43,29 +105,53 @@ flex-direction: column;
                 align-content: center;
                 width: 200px;
                 height:200px;
-                background-color: #500502;
+                background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
                 border-radius: 120px;
-            
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
                 .pomodoro-circle3{
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    align-content: center;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  align-content: center;
+                  width: 200px;
+                  height:200px;
+                  background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+                  border-radius: 120px;
+                  
+                  .pomodoro-circle4{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
                 width: 180px;
                 height:180px;
-                border: 7px solid white;
+              
+                
                 border-radius: 120px;
+                .pomodoro-circle5{
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  align-content: center;
+                  width: 170px;
+                  height:170px;
+                  background: linear-gradient(to right, #0b486b, #f56217); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                  border-radius: 120px;
+                  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+                  .pomodoro-content{
+                      
+                      display: flex;
+                      align-content: center;
+                      align-items: center;
+                      justify-content: center;
+  
+                  }
+  
+                  }
 
-                .pomodoro-content{
-                    
-                    display: flex;
-                    align-content: center;
-                    align-items: center;
-                    justify-content: center;
 
                 }
-
-                }
+              }
             }
         }
     }
@@ -75,7 +161,9 @@ flex-direction: column;
   .timer {
     font-size: 2rem;
     font-weight: bold;
-    color: #d9534f;
+    color: #e9e7e7;
+    text-shadow:  rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    
   }
   
   .controls {
@@ -97,8 +185,93 @@ flex-direction: column;
     opacity: 0.8;
   }
   
-  button:nth-child(1) { background: green; color: white; } // Start
-  button:nth-child(2) { background: orange; color: white; } // Pause
-  button:nth-child(3) { background: blue; color: white; } // Continue
-  button:nth-child(4) { background: red; color: white; } // Reset
+  button:nth-child(1) {  align-items: center;
+    background: #FFFFFF;
+    border: 0 solid #E2E8F0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    color: #1A202C;
+    display: inline-flex;
+    font-family: Inter, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    height: 36px;
+    justify-content: center;
+    line-height: 24px;
+    overflow-wrap: break-word;
+    padding: 24px;
+    text-decoration: none;
+    width: 70px;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation; } // Start
+  
+    button:nth-child(2) { align-items: center;
+      background: #FFFFFF;
+      border: 0 solid #E2E8F0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      box-sizing: border-box;
+      color: #1A202C;
+      display: inline-flex;
+      font-family: Inter, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      height: 36px;
+      justify-content: center;
+      line-height: 24px;
+      overflow-wrap: break-word;
+      padding: 24px;
+      text-decoration: none;
+      width: 70px;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation; } // Start// Pause
+  button:nth-child(3) { align-items: center;
+    background: #FFFFFF;
+    border: 0 solid #E2E8F0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    color: #1A202C;
+    display: inline-flex;
+    font-family: Inter, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    height: 36px;
+    justify-content: center;
+    line-height: 24px;
+    overflow-wrap: break-word;
+    padding: 24px;
+    text-decoration: none;
+    width: 70px;width: auto;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation; } // Start/ Continue
+  button:nth-child(4) { align-items: center;
+    background: #FFFFFF;
+    border: 0 solid #E2E8F0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    color: #1A202C;
+    display: inline-flex;
+    font-family: Inter, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    height: 36px;
+    justify-content: center;
+    line-height: 24px;
+    overflow-wrap: break-word;
+    padding: 24px;
+    text-decoration: none;
+    width: 70px;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation; } // Reset
   

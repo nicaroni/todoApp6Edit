@@ -112,10 +112,10 @@ const PomodoroTimer = ({ theme, isRunning, setIsRunning, todoId, refreshTodos })
         </div>
         
         <div className="controls">
-          <button onClick={() => setIsRunning(true)}>Start</button>
-          <button onClick={() => setIsRunning(false)}>Pause</button>
-          <button onClick={handleEndPomodoro}>End</button> {/* ⏳ END Button */}
-          <button onClick={() => setTime(25 * 60)}>Reset</button>
+          <button className="button-30" onClick={() => setIsRunning(true)}>Start</button>
+          <button className="button-30" onClick={() => setIsRunning(false)}>Pause</button>
+          <button className="button-30" onClick={handleEndPomodoro}>End</button> {/* ⏳ END Button */}
+          <button className="button-30" onClick={() => setTime(25 * 60)}>Reset</button>
         </div>
       </div>
       );

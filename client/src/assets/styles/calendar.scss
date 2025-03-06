@@ -75,8 +75,8 @@
   }
 
   .date-grid {
-    width: 545px;
-    height: 600px;
+    width: 350px;
+    height: 440px;
     display: grid;
     grid-template-columns: repeat(7, 1fr); // 7 columns for days of the week
     gap: 6px;
@@ -90,10 +90,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      
       justify-content: space-between;
-      padding: 8px;
-      height: 130px;
-      width: 70px;
+      padding: 2px;
+      height: 80px;
+      width: 40px;
       border: none;
       background: rgb(255, 255, 255);
       font-size: 0.9rem;
@@ -111,25 +112,33 @@
         background: #6f42c1;
         color: white;
       }
+      .num-all{
+        .num {
+          font-size: 15px;
+          font-weight: bold;
 
-      .num {
-        font-size: 20px;
-        font-weight: bold;
-      }
-      .add-event-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgb(255, 145, 18);
-        color: white;
-        border: none;
-        
-        border-radius: 50%;
-        font-size: 16px;
-        width: 20px;
-        height: 25px;
-        
-        
+        }
+        .show-more-container {
+          align-self:flex-end ;
+          .add-event-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+            background: rgb(255, 145, 18);
+            color: white;
+            border: none;
+
+            border-radius: 50%;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+
+
+          }
+
+        }
+
       }
       
 

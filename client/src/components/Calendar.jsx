@@ -106,7 +106,7 @@ const Calendar = () => {
                 <div className="num-all">
                   <div className="num">{day}</div>
                   <div className="events-written">
-                    {eventList.slice(0,3).map((event, idx) => (
+                    {eventList.slice(0,2).map((event, idx) => (
                       <div key={idx} className="event-item-container"     onMouseEnter={(e) => {
                         const eventRect = e.currentTarget.getBoundingClientRect();
                         const calendarRect = document.querySelector(".custom-calendar").getBoundingClientRect();
@@ -124,16 +124,16 @@ const Calendar = () => {
                         </div>
                       </div>
                     ))}
-                    {eventList.length > 3 && (
+                    {eventList.length > 2 && (
                       <div className="show-more-container">
                       
                       <button className="show-more" onClick={() => openMoreEvents(day)}>
-                      +{eventList.length - 3} more
+                      +{eventList.length - 2} more
                       </button> 
                       <button className="add-event-btn" onClick={() => openEventModal(day)}>+</button>
                       </div>
                     )}
-                    {eventList.length < 4 && (
+                    {eventList.length < 3 && (
                       <div className="show-more-container">
                       <button className="add-event-btn" onClick={() => openEventModal(day)}>+</button>
                      

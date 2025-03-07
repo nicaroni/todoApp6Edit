@@ -11,6 +11,7 @@
     min-width: 250px; // ✅ Ensure it doesn’t collapse
     max-width: 400px; // ✅ Prevent it from taking too much space
     min-height: 200px; // ✅ Prevent height collapse
+    height: 100vh;
   }
   
   .pomodoro-container {

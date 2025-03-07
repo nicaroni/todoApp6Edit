@@ -69,7 +69,21 @@ const Calendar = () => {
   return (
     <div className="calendar-container">
       {/* Sidebar: Events List */}
-     
+     <div className="todayIs">
+      <div className="todayIs-cont">
+      <div className="dateToday-container">
+        <div className="dayNum">15</div>
+        <div className="dayMonth">May</div>
+      </div>
+      <div className="todayEvents">
+        <div className="eventsOfTheDay">
+          <div className="eventsTodaySum">go to the store, shop</div>
+        </div>
+      </div>
+      </div>
+      
+
+     </div>
       {/* Main Calendar */}
       <div className="custom-calendar" >
         {/* Year Picker */}

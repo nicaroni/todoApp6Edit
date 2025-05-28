@@ -10,11 +10,11 @@
     position: relative; // ✅ Ensures hover modal positions inside calendar
     flex: 1;
     background: #fafafa;
-    padding: 7px;
+    padding: 0px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+ 
     text-align: center;
-    max-width: 100%; // Make it fill the container width
+    max-width: 300px; // Make it fill the container width
     height: 100%;
  
 
@@ -81,10 +81,10 @@
     }
 
     .date-grid {
-      width: 350px;
-      height: 440px;
+      width: 280px;
+      height: 360px;
       display: grid;
-      grid-template-columns: repeat(7, 1fr); // 7 columns for days of the week
+      grid-template-columns: repeat(6, 1fr); // 7 columns for days of the week
       gap: 6px;
       margin-top: 15px;
       padding: 8px;
@@ -99,8 +99,8 @@
       
         justify-content: space-between;
         padding: 2px;
-        height: 80px;
-        width: 40px;
+        height: 50px;
+        width: 37px;
         border: none;
         background: rgb(255, 255, 255);
         font-size: 0.9rem;
@@ -147,7 +147,7 @@
             display: flex;
             justify-content: flex-start;
             height: 15px;
-            width: 65px;
+            width: 30px;
           
           
           
@@ -157,7 +157,7 @@
               padding-left: 5px;
               padding-right: 5px;
               border-radius: 4px;
-              font-weight: 300;
+              font-weight: 400;
               text-align: center;
               align-items: center;
               justify-content: center;
@@ -205,8 +205,8 @@
 }
 
 .todayIs{
-  width: 400px;
-  height: 300px;
+  width: 200px;
+  height: 150px;
   display: flex;
   flex-direction: column;
 
@@ -236,7 +236,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
+  max-width: 300px;
   width: 100%;
   z-index: 1000;
   
@@ -268,38 +268,61 @@
 
 .hovar-container {  
   background-color: #343a40;
-.hover-modal {
-  position: absolute;
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 5px;
-  font-size: 0.8rem;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
   
-  overflow-wrap: break-word;
-  white-space: normal;
-  text-align: center;
-  z-index: 1000;
-  pointer-events: none;
-  
-
-     p {
-       margin: 15px 0; // ✅ Adds spacing between text lines
-       line-height: 1; // ✅ Improves readability
-       word-break: break-word; // ✅ Forces breaks even in long words
-     }
+  .hover-modal {
+    position: absolute;
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+    z-index: 1000;
+    pointer-events: none;
+    
+    h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #6f42c1;
+      font-size: 1rem;
+    }
+    
+    .hover-events-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+      
+      th, td {
+        padding: 5px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+      
+      th {
+        font-weight: bold;
+        color: #6f42c1;
+        background-color: #f8f9fa;
+      }
+      
+      td:first-child {
+        font-size: 1.2rem;
+        width: 30px;
+      }
+    }
   }
-}
-}
+} // Close hovar-container here
+} // Close calendar-container here
+
 // Styles for the selected date events container
 .todayIs {
   flex: 0 0 20%;
-  min-width: 250px;
+  min-width: 50px;
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
- 
   display: flex;
   flex-direction: column;
   margin-right: 20px;
@@ -367,7 +390,8 @@
   
   .selectedDayEvents {
     flex: 1;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     
     h3 {
       margin-bottom: 15px;
@@ -378,38 +402,93 @@
       padding-bottom: 8px;
     }
     
-    .events-list {
+    .events-scroll-container {
+      flex: 1;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      position: relative;
+      margin-bottom: 15px;
+      height: 200px !important; /* Force a specific height */
+      min-height: 200px;
+      border: 1px solid #f0f0f0;
+      border-radius: 5px;
     }
     
-    .event-card {
+    .events-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: none; /* Hide default scrollbars for Firefox */
+      -ms-overflow-style: none; /* Hide default scrollbars for IE/Edge */
+      
+      &::-webkit-scrollbar {
+        display: none; /* Hide default scrollbars for Chrome/Safari */
+      }
+    }
+    
+    .scroll-slider-container {
+      width: 20px;
+      padding: 0 5px;
       display: flex;
       align-items: center;
-      background: #f8f9fa;
-      border-left: 4px solid #6f42c1;
-      border-radius: 5px;
-      padding: 10px;
+      background-color: #f8f9fa;
+      border-left: 1px solid #f0f0f0;
+    }
+    
+    .scroll-slider-track {
+      height: 85%;
+      width: 4px;
+      background-color: #e0e0e0;
+      border-radius: 2px;
       position: relative;
+      cursor: pointer;
+      margin: 0 auto;
+    }
+    
+    .scroll-slider-thumb {
+      position: absolute;
+      width: 12px;
+      height: 24px;
+      background-color: #6f42c1;
+      border-radius: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: grab;
+      margin-left: -1px;
+    }
+    
+    .events-table {
+      width: 100%;
+      border-collapse: collapse;
       
-      .event-emoji {
-        font-size: 1.5rem;
-        margin-right: 10px;
+      th {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        text-align: left;
+        padding: 8px;
+        color: #6f42c1;
+        font-size: 0.9rem;
+        border-bottom: 2px solid #f0f0f0;
+        z-index: 1;
       }
       
-      .event-details {
-        flex: 1;
-        
-        .event-name {
-          font-weight: bold;
-          margin-bottom: 3px;
-        }
-        
-        .event-time {
-          font-size: 0.8rem;
-          color: #6c757d;
-        }
+      td {
+        padding: 8px;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 0.9rem;
+      }
+      
+      .event-emoji {
+        font-size: 1.2rem;
+        width: 40px;
+      }
+      
+      .event-name {
+        font-weight: bold;
+      }
+      
+      .event-time {
+        color: #6c757d;
+        width: 80px;
       }
       
       .delete-event-btn {
@@ -419,6 +498,8 @@
         font-size: 1.2rem;
         cursor: pointer;
         opacity: 0.6;
+        padding: 0;
+        width: 24px;
         
         &:hover {
           opacity: 1;
@@ -440,7 +521,7 @@
       border: none;
       border-radius: 5px;
       padding: 8px;
-      margin-top: 15px;
+      margin-top: auto;
       cursor: pointer;
       font-weight: bold;
       
@@ -449,7 +530,7 @@
       }
     }
   }
-}
+} // Close todayIs here
 
 
 

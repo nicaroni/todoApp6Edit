@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import API_URL from '../config';
 import "../assets/styles/calendar.scss";
@@ -25,6 +25,10 @@ const Calendar = () => {
     month: today.getMonth(),
     year: today.getFullYear()
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const EVENTS_PER_PAGE = 5; // Number of events to show per page
+  const [sliderPosition, setSliderPosition] = useState(0);
+  const eventsContainerRef = useRef(null);
 
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -52,10 +56,20 @@ const Calendar = () => {
       const transformedEvents = {};
       
       response.data.forEach(event => {
-        const eventDate = new Date(event.event_date);
-        const day = eventDate.getDate();
-        const month = eventDate.getMonth();
-        const year = eventDate.getFullYear();
+        // Extract date parts directly without letting JavaScript apply timezone conversion
+        const dateParts = event.event_date.split('T')[0].split('-');
+        const year = parseInt(dateParts[0]);
+        const month = parseInt(dateParts[1]) - 1;
+        
+        // THIS IS THE KEY FIX - add 1 to the day to correct the timezone shift
+        // Only if your database is consistently showing events one day earlier
+        const day = parseInt(dateParts[2]) + 1;
+        
+        console.log("Processing event:", {
+          original: event.event_date,
+          adjusted: `${day}-${month}-${year}`,
+          name: event.event_name
+        });
         
         const eventKey = `${day}-${month}-${year}`;
         
@@ -101,19 +115,33 @@ const Calendar = () => {
 
   // Open modal when clicking a date
   const openEventModal = (day) => {
-    setSelectedDay(day);
+    // First update the selected date info
     setSelectedDateInfo({
       day: day,
       month: currentMonth,
       year: currentYear
     });
-    setShowModal(false); // Don't show modal automatically
+    
+    // Then update the selected day (for UI highlighting)
+    setSelectedDay(day);
+    
+    // Set the modal to show a form for adding a new event
+    setShowModal(false);
     setSelectedEventDate(null);
+    
+    // Reset slider position and scroll
+    setSliderPosition(0);
+    if (eventsContainerRef.current) {
+      eventsContainerRef.current.scrollTop = 0;
+    }
     
     // Reset form fields
     setEventName("");
     setEventTime("");
     setEventEmoji("📌");
+    
+    // Add debug log to verify the correct date is selected
+    console.log("Selected date:", day, months[currentMonth], currentYear);
   };
 
   // Add a new function to handle adding events from the sidebar
@@ -157,9 +185,19 @@ const Calendar = () => {
         return;
       }
       
-      // Format date for API
-      const eventDate = new Date(currentYear, currentMonth, selectedDay);
-      const formattedDate = eventDate.toISOString().split('T')[0]; // YYYY-MM-DD
+      // Format date for API - use the selectedDateInfo object
+      const { day, month, year } = selectedDateInfo;
+      
+      // Manually format the date string without timezone issues
+      // Month is 0-indexed in JS Date, so add 1 and ensure 2 digits
+      const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      
+      console.log("Adding event for:", {
+        day: day,
+        month: months[month],
+        year: year,
+        formattedDate: formattedDate
+      });
       
       await axios.post(
         `${API_URL}/events`,
@@ -275,38 +313,37 @@ const Calendar = () => {
                 <div className="num-all">
                   <div className="num">{day}</div>
                   <div className="events-written">
-                    {eventList.slice(0,2).map((event, idx) => (
-                      <div key={idx} className="event-item-container" onClick={(e) => e.stopPropagation()}  onMouseEnter={(e) => {
-                        const eventRect = e.currentTarget.getBoundingClientRect();
-                        const calendarRect = document.querySelector(".custom-calendar").getBoundingClientRect();
-                      
-                        setHoveredEvent({ name: event.name, time: event.time, emoji: event.emoji });
-                      
-                        setHoverPosition({
-                          x: eventRect.left - calendarRect.left + 30, // ✅ Keeps it inside the calendar
-                          y: eventRect.top - calendarRect.top - 50, // ✅ Places it above the event item
-                        });
-                      }}
-                      onMouseLeave={() => setHoveredEvent(null)}>
-                        <div className="event-item">
-                          {event.emoji} <strong>{event.name}</strong>
-                        </div>
-                      </div>
+                    {eventList.slice(0,1).map((event, idx) => (
+                      <div key={idx} className="event-item-container" 
+  onClick={(e) => e.stopPropagation()}  
+  onMouseEnter={(e) => {
+    const eventRect = e.currentTarget.getBoundingClientRect();
+    const calendarRect = document.querySelector(".custom-calendar").getBoundingClientRect();
+    
+    // Get all events for this day instead of just the hovered event
+    const allDayEvents = events[`${day}-${currentMonth}-${currentYear}`] || [];
+    
+    // Set all events for the day as the hovered content
+    setHoveredEvent({
+      dayEvents: allDayEvents,
+      day: day,
+      month: currentMonth,
+      year: currentYear
+    });
+    
+    setHoverPosition({
+      x: eventRect.left - calendarRect.left + 30,
+      y: eventRect.top - calendarRect.top - 50,
+    });
+  }}
+  onMouseLeave={() => setHoveredEvent(null)}
+>
+  <div className="event-item">
+    {event.emoji}<strong>{eventList.length}</strong>
+  </div>
+</div>
                     ))}
-                    {eventList.length > 2 && (
-                      <div className="show-more-container">
-                        <button className="show-more" onClick={(e) => {
-                          e.stopPropagation();
-                          openMoreEvents(day);
-                        }}>
-                          {eventList.length - 2} more
-                        </button>
-                      </div>
-                    )}
-                    {eventList.length < 3 && (
-                      <div className="show-more-container">
-                      </div>
-                    )}
+                    
                     
                   </div>
                 </div>
@@ -321,36 +358,126 @@ const Calendar = () => {
           📅 Selected: <strong>{selectedDay} {months[currentMonth]} {currentYear}</strong>
         </div>
         <div className="selectedDayEvents">
-            <h3>Events</h3>
-            {getSelectedDateEvents().length > 0 ? (
-              <div className="events-list">
-                {getSelectedDateEvents().map((event, idx) => (
-                  <div key={idx} className="event-card">
-                    <div className="event-emoji">{event.emoji}</div>
-                    <div className="event-details">
-                      <div className="event-name">{event.name}</div>
-                      <div className="event-time">{event.time || "No time set"}</div>
-                    </div>
-                    <button 
-                      className="delete-event-btn" 
-                      onClick={() => deleteEvent(event.id)}
-                      title="Delete event"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="no-events">No events scheduled</div>
-            )}
-            <button 
-              className="add-event-sidebar-btn" 
-              onClick={handleAddEventClick}
-            >
-              + Add Event
-            </button>
+  <h3>Events</h3>
+  
+  {getSelectedDateEvents().length > 0 ? (
+    <div className="events-scroll-container">
+      <div 
+        className="events-wrapper" 
+        ref={eventsContainerRef}
+        onScroll={(e) => {
+          if (eventsContainerRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+            const maxScroll = scrollHeight - clientHeight;
+            if (maxScroll > 0) {
+              setSliderPosition((scrollTop / maxScroll) * 100);
+            }
+          }
+        }}
+      >
+        <table className="events-table">
+          <thead>
+            <tr>
+              <th>Emoji</th>
+              <th>Name</th>
+              <th>Time</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {getSelectedDateEvents().map((event, idx) => (
+              <tr key={idx} className="event-row">
+                <td className="event-emoji">{event.emoji}</td>
+                <td className="event-name">{event.name}</td>
+                <td className="event-time">{event.time || "—"}</td>
+                <td>
+                  <button 
+                    className="delete-event-btn" 
+                    onClick={() => deleteEvent(event.id)}
+                    title="Delete event"
+                  >
+                    ×
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      {getSelectedDateEvents().length > 4 && (
+        <div className="scroll-slider-container">
+          <div 
+            className="scroll-slider-track"
+            onClick={(e) => {
+              // Calculate click position relative to track height
+              const trackRect = e.currentTarget.getBoundingClientRect();
+              const clickPosition = e.clientY - trackRect.top;
+              const trackHeight = trackRect.height;
+              const percentage = (clickPosition / trackHeight) * 100;
+              
+              setSliderPosition(percentage);
+              
+              // Set scroll position
+              if (eventsContainerRef.current) {
+                const { scrollHeight, clientHeight } = eventsContainerRef.current;
+                const maxScroll = scrollHeight - clientHeight;
+                eventsContainerRef.current.scrollTop = (percentage / 100) * maxScroll;
+              }
+            }}
+          >
+            <div 
+              className="scroll-slider-thumb"
+              style={{ top: `${sliderPosition}%` }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                
+                const trackRect = e.currentTarget.parentElement.getBoundingClientRect();
+                const thumbHeight = e.currentTarget.offsetHeight;
+                
+                const handleMouseMove = (moveEvent) => {
+                  // Calculate position within constraints
+                  const mouseY = moveEvent.clientY;
+                  const trackTop = trackRect.top;
+                  const trackHeight = trackRect.height;
+                  
+                  let newPosition = ((mouseY - trackTop) / trackHeight) * 100;
+                  newPosition = Math.max(0, Math.min(newPosition, 100));
+                  
+                  setSliderPosition(newPosition);
+                  
+                  // Update scroll position
+                  if (eventsContainerRef.current) {
+                    const { scrollHeight, clientHeight } = eventsContainerRef.current;
+                    const maxScroll = scrollHeight - clientHeight;
+                    eventsContainerRef.current.scrollTop = (newPosition / 100) * maxScroll;
+                  }
+                };
+                
+                const handleMouseUp = () => {
+                  document.removeEventListener('mousemove', handleMouseMove);
+                  document.removeEventListener('mouseup', handleMouseUp);
+                };
+                
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+              }}
+            />
           </div>
+        </div>
+      )}
+    </div>
+  ) : (
+    <div className="no-events">No events scheduled</div>
+  )}
+  
+  <button 
+    className="add-event-sidebar-btn" 
+    onClick={handleAddEventClick}
+  >
+    + Add Event
+  </button>
+</div>
       </div>
  {/* Event Modal */}
  {showModal && (
@@ -405,25 +532,52 @@ const Calendar = () => {
                 <option>🎂</option>
                 <option>🎭</option>
               </select>
-              <button onClick={addEvent}>Save</button>
+              <button 
+                onClick={addEvent}
+                className="save-event-btn"
+                style={{
+                  backgroundColor: "#6f42c1",
+                  color: "white",
+                  padding: "8px 16px",
+                  borderRadius: "5px",
+                  border: "none",
+                  marginTop: "10px",
+                  cursor: "pointer",
+                  fontWeight: "bold"
+                }}
+              >
+                Save Event
+              </button>
             </>
           )}
           <button onClick={() => { setShowModal(false); setSelectedEventDate(null); }}>Close</button>
         </div>
       )}
         {hoveredEvent && (
-     <div className="hovar-container">
-         <div className="hover-modal" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }} >
-        <h4>{hoveredEvent.emoji} {hoveredEvent.name}</h4>00
-        <p>Time: {hoveredEvent.time || "N/A"}</p>
-      </div>
-      
-     </div>
-     
-    
-    )}
-  
-
+  <div className="hovar-container">
+    <div className="hover-modal" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}>
+      <h4>Events on {hoveredEvent.day} {months[hoveredEvent.month]} {hoveredEvent.year}</h4>
+      <table className="hover-events-table">
+        <thead>
+          <tr>
+            <th>Emoji</th>
+            <th>Event</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {hoveredEvent.dayEvents.map((event, idx) => (
+            <tr key={idx}>
+              <td>{event.emoji}</td>
+              <td>{event.name}</td>
+              <td>{event.time || "N/A"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
 
     </div>
   );

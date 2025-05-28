@@ -294,10 +294,18 @@ app.post("/events", verifyToken, async (req, res) => {
   const userId = req.user.userId;
 
   try {
+    // Log what we're receiving
+    console.log("Received event date:", event_date);
+    
+    // Make sure PostgreSQL treats the date as a UTC date without time component
     const result = await pool.query(
-      "INSERT INTO calendar_events (user_id, event_name, event_date, event_time, emoji) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      "INSERT INTO calendar_events (user_id, event_name, event_date, event_time, emoji) VALUES ($1, $2, $3::date, $4, $5) RETURNING *",
       [userId, event_name, event_date, event_time, emoji]
     );
+    
+    // Log what was saved
+    console.log("Saved event with date:", result.rows[0].event_date);
+    
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error("Error creating event:", err.message);

@@ -86,6 +86,7 @@ const PomodoroTimer = ({ theme, isRunning, setIsRunning, todoId, refreshTodos })
       return (
         <div className={`pomodoro-container ${theme}`}>  
         {/* ✅ Ensure `theme` is applied */}
+        
 <h2>
   POMODORO
   <span>POMODORO</span>

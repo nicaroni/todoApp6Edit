@@ -15,26 +15,36 @@ $informationColor: #a793c0;
 
 // General styling for body and container
 body {
-  background-color: #ffffff;
+  background-color: #ffffff;  margin-bottom: 0;
 }
 
 .todos-page {
-  width: 100vw !important;  // ✅ Ensure full width
-  height: 100vh !important; // ✅ Ensure full height
+  width: 100vw !important;
+  height: 100vh !important;
   display: flex;
-  flex-wrap: nowrap;  // ✅ Prevent flexbox issues
+  flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
-  padding-right: 10px;
-  padding-left: 10px;
-  background-color: white !important;  // ✅ Ensure it's not blending with the background
+  align-items: stretch; // Change to stretch to fill vertical space
+  gap: 0; // Remove the gap between components
+  padding-right: 0; // Remove horizontal padding
+  padding-left: 0;
+  background-color: white !important;
+  overflow-x: hidden; // Prevent horizontal scrolling
 }
 
+.container {
+  margin-top: 0;
+  width: 1600px; // Set your desired width
+  max-width: 60%; // Make it responsive
+  height: 100%;
+  margin-bottom: 0;
+  flex: 1; // Allow it to grow and shrink
+
+
+}
 
 .todo-table {
-  width: 900px;
-  height: 700px;
+  
   .my-4 {
     color: $primary;
     font-weight: 700;
@@ -250,6 +260,18 @@ body {
   text-align: center;
   vertical-align: middle;
   
+}
+
+.calendar {
+  height: 100%;
+  flex: 0 0 20%; // Fixed ratio (adjust as needed)
+  min-width: 300px; // Minimum width
+}
+
+.pomodoro-timer {
+  height: 100%;
+  flex: 0 0 20%; // Fixed ratio (adjust as needed)
+  min-width: 300px; // Minimum width
 }
 
 

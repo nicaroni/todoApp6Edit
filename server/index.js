@@ -274,6 +274,59 @@ cron.schedule("0 0 * * *", async () => {
   }
 })
 
+
+// Get all events for the authenticated user
+app.get("/events", verifyToken, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const result = await pool.query("SELECT * FROM calendar_events WHERE user_id = $1 ORDER BY event_date, event_time", [userId]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error fetching events:", err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Create a new event
+app.post("/events", verifyToken, async (req, res) => {
+  const { event_name, event_date, event_time, emoji } = req.body;
+  const userId = req.user.userId;
+
+  try {
+    const result = await pool.query(
+      "INSERT INTO calendar_events (user_id, event_name, event_date, event_time, emoji) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [userId, event_name, event_date, event_time, emoji]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error("Error creating event:", err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Delete an event
+app.delete("/events/:id", verifyToken, async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.userId;
+
+  try {
+    const result = await pool.query(
+      "DELETE FROM calendar_events WHERE event_id = $1 AND user_id = $2 RETURNING *",
+      [id, userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    res.json({ message: "Event deleted!", deletedEvent: result.rows[0] });
+  } catch (err) {
+    console.error("Error deleting event:", err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 app.get("/", (req, res) => {
   res.send("Server is running! 🚀");
 });

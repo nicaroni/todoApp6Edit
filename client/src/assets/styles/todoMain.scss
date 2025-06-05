@@ -161,6 +161,49 @@ body {
   }
 }
 
+// Add these styles to your existing CSS
+
+.todo-content-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  flex: 1;
+}
+
+.todo-date-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.todo-date {
+  font-size: 0.7rem; // Make date smaller
+  font-weight: 300;
+  color: #a793c0;
+  margin: 0;
+  text-align: left;
+}
+
+.todo-description {
+  padding: 4px 10px;
+  border-radius: 20px;
+  background-color: inherit; // This will pick up the theme color
+  font-weight: 600;
+  text-align: left;
+  
+  span {
+    display: block; // Ensure full width
+    word-break: break-word; // Handle long words
+  }
+}
+
+// Update for completed items
+.todo-item-row.completed .todo-description span {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
 // Styling for completed todo item rows
 .todo-item-row.completed .todo-description {
   text-decoration: line-through;

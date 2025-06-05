@@ -123,51 +123,46 @@ const TodoItem = ({ todo, dispatch, startPomodoro }) => {
 
   return (
     <tr className={`todo-item-row ${isCompleted ? "completed" : ""}`}>
-      <td className="circle" onClick={handleComplete}  onMouseEnter={(e) => {
+      <td className="circle" onClick={handleComplete} onMouseEnter={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
           setHoveredEvent(true);
-          setHoverPosition({ x: rect.left + 30, y: rect.top - 10 }); // Adjusted position
+          setHoverPosition({ x: rect.left + 30, y: rect.top - 10 });
         }}
         onMouseLeave={() => {
-          setTimeout(() => setHoveredEvent(false), 700); // Small delay to allow moving to the icon
+          setTimeout(() => setHoveredEvent(false), 700);
         }}>
         {todo.completed ? "✓" : ""}
-        
       </td>
-      <td className="todo-date">{formatDate(todo.created_at)}</td>
-      <td className="todo-description">
-        {isEditing ? (
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSaveEdit(); // Save on "Enter" key press
-              }
-            }}
-            className="form-control"
-          />
-        ) : (
-          <span onClick={() => setIsEditing(true)}>{todo.description}</span>
-        )}
-      </td> 
+      <td className="todo-content-cell">
+        <div className="todo-date-container">
+          <div className="todo-date">{formatDate(todo.created_at)}</div>
+          <div className="todo-description">
+            {isEditing ? (
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSaveEdit();
+                  }
+                }}
+                className="form-control"
+              />
+            ) : (
+              <span onClick={() => setIsEditing(true)}>{todo.description}</span>
+            )}
+          </div>
+        </div>
+      </td>
       <td className="todo-time-spent">
-        <div className="emoji-timer">
-        ⏳
-        </div>
-        <div className="time-spent-text">
-        {todo.time_spent || 0} min
-        </div>
-  
+        <div className="emoji-timer">⏳</div>
+        <div className="time-spent-text">{todo.time_spent || 0} min</div>
       </td>
-
       <td className="delete-btn-cell">
-        <button className="delete-btn" onClick={handleDelete}>
-          Delete
-        </button>
+        <button className="delete-btn" onClick={handleDelete}>Delete</button>
       </td>
-
+      
       {/* Show clock icon on hover */}
       
       {hoveredEvent && (

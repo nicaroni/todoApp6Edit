@@ -15,8 +15,7 @@ const HomePage = () => {
                     <p className='p-1'> Hey, Goal-Getter! 🎯
 You’ve got dreams, deadlines, and daily missions—so why not make checking off tasks a little more exciting? Whether it’s a tiny win or a massive milestone, every completed task is a step forward.
 
-Start your day, week, or month with a plan, and let’s turn that checklist into a celebration of progress! 🎉
-Ready? Add a new task and let’s get things done! 🚀</p>
+ 🚀</p>
                 </div>
             </div>
         </div>
